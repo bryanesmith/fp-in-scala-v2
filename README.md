@@ -4,6 +4,10 @@
 
 <img src="images/fp-in-scala-cover.jpg" height="384" width="306">
 
+## Notes
+
+I also have [some notes](https://github.com/bryanesmith/notes/tree/master/chiusano-et-al.functional-programming-in-scala).
+
 ## Install
 
 Easiest options are Intellij for IDE or sbt for terminal.
