@@ -1,24 +1,24 @@
 package ch3
 
-import ch3.List.foldRight
+import ch3.List._
 import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
 
   "List.sum" should "handle empty list" in {
-    assert(List.sum(Nil) == 0)
+    assert(sum(Nil) == 0)
   }
 
   it should "handle non-empty list" in {
-    assert(List.sum(List(1,2,3)) == 6)
+    assert(sum(List(1,2,3)) == 6)
   }
 
   "List.product" should "handle empty list" in {
-    assert(List.product(Nil) == 1)
+    assert(product(Nil) == 1)
   }
 
   it should "handle non-empty list" in {
-    assert(List.product(List(2.0, 2.0, 4.0)) == 16.0)
+    assert(product(List(2.0, 2.0, 4.0)) == 16.0)
   }
 
   // exercise 3.1
@@ -34,73 +34,73 @@ class ListTest extends FlatSpec {
   }
 
   "List.tail" should "handle an empty list" in {
-    assert(List.tail(Nil) == Nil)
+    assert(tail(Nil) == Nil)
   }
 
   it should "handle a list of one" in {
-    assert(List.tail(List(1)) == Nil)
+    assert(tail(List(1)) == Nil)
   }
 
   it should "handle a non-empty list" in {
-    assert(List.tail(List(1, 2, 3)) == List(2, 3))
+    assert(tail(List(1, 2, 3)) == List(2, 3))
   }
 
   "List.setHead" should "handle an empty list" in {
-    assert(List.setHead(1, Nil) == List(1))
+    assert(setHead(1, Nil) == List(1))
   }
 
   it should "handle an non-empty list" in {
-    assert(List.setHead(1, List(2, 3)) == List(1, 2, 3))
+    assert(setHead(1, List(2, 3)) == List(1, 2, 3))
   }
 
   "List.drop" should "handle an empty list" in {
-    assert(List.drop(Nil, 1) == Nil)
+    assert(drop(Nil, 1) == Nil)
   }
 
   it should "handle negative n" in {
-    assert(List.drop(List(1, 2, 3), -11) == List(1, 2, 3))
+    assert(drop(List(1, 2, 3), -11) == List(1, 2, 3))
   }
 
   it should "handle n less than length of list" in {
     val l = List(1, 2, 3)
-    assert(List.drop(l, 1) == List(2, 3))
-    assert(List.drop(l, 2) == List(3))
+    assert(drop(l, 1) == List(2, 3))
+    assert(drop(l, 2) == List(3))
   }
 
   it should "handle n equal to length of list" in {
-    assert(List.drop(List(1, 2, 3), 3) == Nil)
+    assert(drop(List(1, 2, 3), 3) == Nil)
   }
 
   it should "handle n greater length of list" in {
-    assert(List.drop(List(1, 2, 3), 4) == Nil)
+    assert(drop(List(1, 2, 3), 4) == Nil)
   }
 
   "List.dropWhile" should "handle an empty list" in {
-    assert(List.dropWhile(Nil, (_: Int) => false) == Nil)
+    assert(dropWhile(Nil, (_: Int) => false) == Nil)
   }
 
   it should "handle a predicate that fails on first ele" in {
-    assert(List.dropWhile(List(1, 2, 3), (_: Int) => false) == List(1, 2, 3))
+    assert(dropWhile(List(1, 2, 3), (_: Int) => false) == List(1, 2, 3))
   }
 
   it should "handle a predicate that succeeds on some ele" in {
     val l = List(1, 2, 3)
-    assert(List.dropWhile(l, (a: Int) => a <= 1) == List(2, 3))
-    assert(List.dropWhile(l, (a: Int) => a <= 2) == List(3))
+    assert(dropWhile(l, (a: Int) => a <= 1) == List(2, 3))
+    assert(dropWhile(l, (a: Int) => a <= 2) == List(3))
   }
 
   it should "handle a predicate that succeeds on all ele" in {
-    assert(List.dropWhile(List(1, 2, 3), (_: Int) => true) == Nil)
+    assert(dropWhile(List(1, 2, 3), (_: Int) => true) == Nil)
   }
 
   "List.init" should "handle an empty list" in {
-    assert(List.init(Nil) == Nil)
+    assert(init(Nil) == Nil)
   }
 
   it should "handle a non-empty list" in {
-    assert(List.init(List(1)) == Nil)
-    assert(List.init(List(1, 2)) == List(1))
-    assert(List.init(List(1, 2, 3)) == List(1, 2))
+    assert(init(List(1)) == Nil)
+    assert(init(List(1, 2)) == List(1))
+    assert(init(List(1, 2, 3)) == List(1, 2))
   }
 
   // Exercise 3.8
