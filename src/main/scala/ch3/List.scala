@@ -28,9 +28,18 @@ object List {
   def setHead[A](a:A, as:List[A]) = Cons(a, as)
 
   // Exercise 3.4
+  @annotation.tailrec
   def drop[A](as: List[A], n: Int): List[A] = as match {
     case Nil => Nil
-    case Cons(_, tail: List[A]) if n > 0 => drop(tail, n - 1)
+    case Cons(_:A, tail:List[A]) if n > 0 => drop(tail, n - 1)
+    case _ => as
+  }
+
+  // Exercise 3.5
+  @annotation.tailrec
+  def dropWhile[A](as: List[A], f: A => Boolean): List[A] = as match {
+    case Nil => Nil
+    case Cons(head:A, tail:List[A]) if f(head) => dropWhile(tail, f)
     case _ => as
   }
 

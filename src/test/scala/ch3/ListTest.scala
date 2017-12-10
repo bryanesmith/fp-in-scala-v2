@@ -74,4 +74,21 @@ class ListTest extends FlatSpec {
     assert(List.drop(List(1, 2, 3), 4) == Nil)
   }
 
+  "List.dropWhile" should "handle an empty list" in {
+    assert(List.dropWhile(Nil, (_: Int) => false) == Nil)
+  }
+
+  it should "handle a predicate that fails on first ele" in {
+    assert(List.dropWhile(List(1, 2, 3), (_: Int) => false) == List(1, 2, 3))
+  }
+
+  it should "handle a predicate that succeeds on some ele" in {
+    val l = List(1, 2, 3)
+    assert(List.dropWhile(l, (a: Int) => a <= 1) == List(2, 3))
+    assert(List.dropWhile(l, (a: Int) => a <= 2) == List(3))
+  }
+
+  it should "handle a predicate that succeeds on all ele" in {
+    assert(List.dropWhile(List(1, 2, 3), (_: Int) => true) == Nil)
+  }
 }
