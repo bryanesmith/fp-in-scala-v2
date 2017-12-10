@@ -4,6 +4,8 @@ import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
 
+  private val emptyInt = List[Int]()
+
   "sum" should "handle empty list" in
     assert(Nil.sum == 0)
 
@@ -89,7 +91,7 @@ class ListTest extends FlatSpec {
 
   // Exercise 3.8
   "tail" should "solve exercise 3.8" in {
-    val found = List(1,2,3).foldRight(List[Int]()) { Cons(_,_) }
+    val found = List(1,2,3).foldRight(emptyInt) { Cons(_,_) }
     assert(List(1, 2, 3) == found )
   }
 
@@ -103,7 +105,7 @@ class ListTest extends FlatSpec {
   }
 
   "foldLeft" should "be add things" in {
-    assert(List[Int]().foldLeft(0)(_ + _) == 0)
+    assert(emptyInt.foldLeft(0)(_ + _) == 0)
     assert(List(1).foldLeft(0)(_ + _) == 1)
     assert(List(1, 2).foldLeft(0)(_ + _) == 3)
   }
@@ -159,7 +161,7 @@ class ListTest extends FlatSpec {
   }
 
   "foldLeftBad" should "be add things" in {
-    assert(List[Int]().foldLeftBad(0)(_ + _) == 0)
+    assert(emptyInt.foldLeftBad(0)(_ + _) == 0)
     assert(List(1).foldLeftBad(0)(_ + _) == 1)
     assert(List(1, 2).foldLeftBad(0)(_ + _) == 3)
   }
@@ -201,8 +203,16 @@ class ListTest extends FlatSpec {
     assert(List(1.0, 2.0, 3.0).toStrings == List("1.0", "2.0", "3.0"))
 
   "filter" should "handle empty lists" in
-    assert(List[Int]().filter(_ => true) == Nil)
+    assert(emptyInt.filter(_ => true) == Nil)
 
   it should "filter out odd numbers"
     assert(List(1, 2, 3, 4, 5).filter(_ % 2 == 0) == List(2, 4))
+
+  "flatMap" should "handle empty lists" in {
+    assert(emptyInt.flatMap(a => List(a, a)) == Nil)
+    assert(List(1, 2, 3).flatMap(_ => Nil) == Nil)
+  }
+
+  it should "flatMap ftw" in
+    assert(List(1, 2, 3).flatMap(i => List(i, i)) == List(1, 1, 2, 2, 3, 3))
 }

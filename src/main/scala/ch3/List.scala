@@ -193,6 +193,9 @@ object List {
         acc
       })
 
+    // exercise 3.20
+    def flatMap[B](f: A => List[B]): List[B] = l.map(f).flatten
+
   } // ListOps
 
 } // object List
