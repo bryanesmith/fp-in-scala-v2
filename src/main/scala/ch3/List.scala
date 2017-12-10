@@ -71,7 +71,7 @@ object List {
       @annotation.tailrec
       def go(as: List[A], n: Int): List[A] = as match {
         case Nil => Nil
-        case Cons(_:A, tail:List[A]) if n > 0 => go(tail, n - 1)
+        case Cons(_, tail:List[A]) if n > 0 => go(tail, n - 1)
         case _ => as
       }
       go(l, num)
@@ -82,7 +82,7 @@ object List {
       @annotation.tailrec
       def go(as: List[A]): List[A] = as match {
         case Nil => Nil
-        case Cons(head:A, tail:List[A]) if f(head) => go(tail)
+        case Cons(head, tail:List[A]) if f(head) => go(tail)
         case _ => as
       }
       go(l)
@@ -93,7 +93,7 @@ object List {
       def go(as: List[A]): List[A] = as match {
         case Nil => Nil
         case Cons(_, Nil) => Nil
-        case Cons(head:A, tail:List[A]) => Cons(head, go(tail))
+        case Cons(head, tail:List[A]) => Cons(head, go(tail))
       }
       go(l)
     }
