@@ -48,6 +48,14 @@ object List {
   } // DoubleListOps
 
   /**
+    * So I can use infix methods on Lists of Lists
+    */
+  implicit class ListListOps[A] (l: List[List[A]]) {
+    // Exercise 3.15
+    def flatten: List[A] = l.foldLeft(List[A]()) { (acc: List[A], next:List[A]) => acc.append(next) }
+  }
+
+  /**
     * So I can use infix methods on any type of List
     */
   implicit class ListOps[A] (l: List[A]) {

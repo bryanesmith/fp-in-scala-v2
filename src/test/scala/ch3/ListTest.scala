@@ -179,4 +179,12 @@ class ListTest extends FlatSpec {
 
   it should "handle non-empty lists" in
     assert(List(1, 2).append(List(3, 4, 5)) == List(1, 2, 3, 4, 5))
+
+  "List.flatten" should "handle empty lists" in {
+    assert(Nil.flatten == Nil)
+    assert(List(Nil, Nil, Nil).flatten == Nil)
+  }
+
+  it should "handle non-empty lists" in
+    assert(List(List(1, 2), List(3, 4), List(5)).flatten == List(1, 2, 3, 4, 5))
 }
