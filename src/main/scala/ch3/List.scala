@@ -28,7 +28,7 @@ object List {
     // Exercise 3.11
     def sum2: Int = l.foldLeft(0) { _ + _ }
 
-    // Exercise 3.18
+    // Exercise 3.16
     def addOne: List[Int] = {
       @annotation.tailrec
       def sub(is:List[Int], acc:List[Int]): List[Int] = is match {
