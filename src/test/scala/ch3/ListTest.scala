@@ -88,8 +88,10 @@ class ListTest extends FlatSpec {
   }
 
   // Exercise 3.8
-  "List.tail" should "solve exercise 3.8" in
-    assert( List(1, 2, 3) == List(1,2,3).foldRight(Nil: List[Int]){ Cons(_,_) } )
+  "List.tail" should "solve exercise 3.8" in {
+    val found = List(1,2,3).foldRight(Nil: List[Int]) { Cons(_,_) }
+    assert(List(1, 2, 3) == found )
+  }
 
   "List.lengthRight" should "handle empty list" in
     assert(Nil.lengthRight == 0)
