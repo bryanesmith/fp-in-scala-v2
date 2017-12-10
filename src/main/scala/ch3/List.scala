@@ -15,6 +15,8 @@ object List {
     */
   implicit class IntListOps[A <: Int] (l: List[A]) {
 
+    private val empty = List[Int]()
+
     def sum: Int = {
       def go(ints: List[Int]): Int = ints match {
         case Nil => 0
@@ -25,6 +27,16 @@ object List {
 
     // Exercise 3.11
     def sum2: Int = l.foldLeft(0) { _ + _ }
+
+    // Exercise 3.18
+    def addOne: List[Int] = {
+      @annotation.tailrec
+      def sub(is:List[Int], acc:List[Int]): List[Int] = is match {
+        case Cons(head, tail) => sub(tail, acc.append(List(head+1)))
+        case Nil => acc
+      }
+      sub(l, empty)
+    }
 
   } // IntListOps
 
