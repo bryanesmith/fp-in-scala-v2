@@ -22,12 +22,16 @@ object List {
     else Cons(as.head, apply(as.tail: _*))
 
   // Exercise 3.2
-  def tail[A](as:List[A]): List[A] = as match {
-    case Nil => Nil
-    case Cons(_, tail: List[A]) => tail
-  }
+  def tail[A](as:List[A]): List[A] = drop(as, 1)
 
   // Exercise 3.3
   def setHead[A](a:A, as:List[A]) = Cons(a, as)
+
+  // Exercise 3.4
+  def drop[A](as: List[A], n: Int): List[A] = as match {
+    case Nil => Nil
+    case Cons(_, tail: List[A]) if n > 0 => drop(tail, n - 1)
+    case _ => as
+  }
 
 }

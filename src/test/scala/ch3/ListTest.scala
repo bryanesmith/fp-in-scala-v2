@@ -52,5 +52,26 @@ class ListTest extends FlatSpec {
     assert(List.setHead(1, List(2, 3)) == List(1, 2, 3))
   }
 
+  "List.drop" should "handle an empty list" in {
+    assert(List.drop(Nil, 1) == Nil)
+  }
+
+  it should "handle negative n" in {
+    assert(List.drop(List(1, 2, 3), -11) == List(1, 2, 3))
+  }
+
+  it should "handle n less than length of list" in {
+    val l = List(1, 2, 3)
+    assert(List.drop(l, 1) == List(2, 3))
+    assert(List.drop(l, 2) == List(3))
+  }
+
+  it should "handle n equal to length of list" in {
+    assert(List.drop(List(1, 2, 3), 3) == Nil)
+  }
+
+  it should "handle n greater length of list" in {
+    assert(List.drop(List(1, 2, 3), 4) == Nil)
+  }
 
 }
