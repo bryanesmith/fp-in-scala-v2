@@ -17,6 +17,12 @@ object List {
     case Cons(x: Double, xs: List[Double]) => x * product(xs);
   }
 
+  // Exercise 3.11
+  def sum2(ints: List[Int]): Int = ints.foldLeft(0) { _ + _ }
+
+  // Exercise 3.11
+  def product2(ints: List[Double]): Double = ints.foldLeft(1.0) { _ * _ }
+
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
@@ -63,14 +69,14 @@ object List {
     def init: List[A] = {
       def go(as: List[A]): List[A] = as match {
         case Nil => Nil
-        case Cons(a:A, Nil) => Nil
+        case Cons(_, Nil) => Nil
         case Cons(head:A, tail:List[A]) => Cons(head, go(tail))
       }
       go(l)
     }
 
     // Exercise 3.9
-    def length: Int = foldRight(0) { (_, b) => b + 1 }
+    def lengthRight: Int = foldRight(0) { (_, b) => b + 1 }
 
     // Exercise 3.10
     def foldLeft[B](z:B)(f: (B, A) => B): B = {
@@ -81,6 +87,9 @@ object List {
       }
       go(l, z)
     }
+
+    // Exercise 3.11
+    def length: Int = foldLeft(0) { (b, _) => b + 1 }
 
   } // ListOps
 

@@ -92,13 +92,13 @@ class ListTest extends FlatSpec {
   "List.tail" should "solve exercise 3.8" in
     assert( List(1, 2, 3) == List(1,2,3).foldRight(Nil: List[Int]){ Cons(_,_) } )
 
-  "List.length" should "handle empty list" in
-    assert(Nil.length == 0)
+  "List.lengthRight" should "handle empty list" in
+    assert(Nil.lengthRight == 0)
 
-  it should "handle non-empty list" in {
-    assert(List(1).length == 1)
-    assert(List(1, 2).length == 2)
-    assert(List(1, 2, 3).length == 3)
+  it should "handle non-empty lists" in {
+    assert(List(1).lengthRight == 1)
+    assert(List(1, 2).lengthRight == 2)
+    assert(List(1, 2, 3).lengthRight == 3)
   }
 
   "List.foldLeft" should "be add things" in {
@@ -107,4 +107,28 @@ class ListTest extends FlatSpec {
     assert(List(1, 2).foldLeft(0)(_ + _) == 3)
   }
 
+  "List.sum2" should "handle empty list" in
+    assert(List.sum2(Nil) == 0)
+
+  it should "handle non-empty lists" in {
+    assert(List.sum2(List(1)) == 1)
+    assert(List.sum2(List(1, 2)) == 3)
+  }
+
+  "List.product2" should "handle empty list" in
+    assert(List.product2(Nil) == 1.0)
+
+  it should "handle non-empty list" in {
+    assert(List.product2(List(2.0)) == 2.0)
+    assert(List.product2(List(2.0, 3.0)) == 6.0)
+  }
+
+  "List.length" should "handle empty list" in
+    assert(Nil.length == 0)
+
+  it should "handle non-empty lists" in {
+    assert(List(1).length == 1)
+    assert(List(1, 2).length == 2)
+    assert(List(1, 2, 3).length == 3)
+  }
 }
