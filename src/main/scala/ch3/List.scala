@@ -51,8 +51,25 @@ object List {
     * So I can use infix methods on Lists of Lists
     */
   implicit class ListListOps[A] (l: List[List[A]]) {
-    // Exercise 3.15
-    def flatten: List[A] = l.foldLeft(List[A]()) { (acc: List[A], next:List[A]) => acc.append(next) }
+
+    private val empty = List[A]()
+
+    // Exercise 3.15 - O(n log n)
+//    def flatten: List[A] = l.foldLeft(empty) { (acc: List[A], next:List[A]) => acc.append(next) }
+
+    // Exercise 3.15 - O(2n) but tailrec
+//    def flatten: List[A] =  l.foldLeft(empty) {
+//      (acc: List[A], next:List[A]) => next.foldLeft(acc) { (z, a) => Cons(a, z) }
+//    }.reverse
+
+    // Exercise 3.15 - ~O(n) but eats stack
+    def flatten: List[A] = {
+      def go(ls:List[List[A]]): List[A] = ls match {
+        case Cons(head: List[A], tail: List[List[A]]) => head.append(go(tail))
+        case Nil => Nil
+      }
+      go(l)
+    }
   }
 
   /**
@@ -60,7 +77,9 @@ object List {
     */
   implicit class ListOps[A] (l: List[A]) {
 
-    def foldRightBad[B](z: B)(f: (A, B) => B): B = {
+    private val empty = List[A]()
+
+    def foldRightEatsStack[B](z: B)(f: (A, B) => B): B = {
       def go(as: List[A]): B = as match {
         case Nil => z
         case Cons(x, xs) => f(x, go(xs))
@@ -131,14 +150,14 @@ object List {
     def length: Int = foldLeft(0) { (b, _) => b + 1 }
 
     // Exercise 3.12
-    def reverse: List[A] = foldLeft(List[A]()) { (acc, a) => Cons(a, acc) }
+    def reverse: List[A] = foldLeft(empty) { (acc, a) => Cons(a, acc) }
 
     // Exercise 3.13
-    def reverseRight: List[A] = foldRight(List[A]()) { (a, acc) => acc.append(List(a)) }
+    def reverseRight: List[A] = foldRight(empty) { (a, acc) => acc.append(List(a)) }
 
     // Exercise 3.13
     def foldLeftBad[B](z:B)(f: (B, A) => B): B =
-      this.reverseRight.foldRightBad(z)((a: A, b: B) => f(b, a))
+      this.reverseRight.foldRightEatsStack(z)((a: A, b: B) => f(b, a))
 
     // Exercise 3.13
     def foldRight[B](z:B)(f: (A, B) => B): B =
