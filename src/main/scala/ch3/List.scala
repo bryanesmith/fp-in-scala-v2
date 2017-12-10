@@ -29,14 +29,7 @@ object List {
     def sum2: Int = l.foldLeft(0) { _ + _ }
 
     // Exercise 3.16
-    def addOne: List[Int] = {
-      @annotation.tailrec
-      def sub(is:List[Int], acc:List[Int]): List[Int] = is match {
-        case Cons(head, tail) => sub(tail, acc.append(List(head+1)))
-        case Nil => acc
-      }
-      sub(l, empty)
-    }
+    def addOne: List[Int] = l.map(_ + 1)
 
   } // IntListOps
 
@@ -45,7 +38,7 @@ object List {
     */
   implicit class DoubleListOps[A <: Double] (l: List[A]) {
 
-    def product(): Double = {
+    def product: Double = {
       def go(ds: List[Double]): Double = ds match {
         case Nil => 1.0
         case Cons(0.0, _) => 0.0
@@ -55,7 +48,10 @@ object List {
     }
 
     // Exercise 3.11
-    def product2(): Double = l.foldLeft(1.0) { _ * _ }
+    def product2: Double = l.foldLeft(1.0) { _ * _ }
+
+    // Exercise 3.17
+    def toStrings: List[String] = l.map(_.toString)
 
   } // DoubleListOps
 
@@ -178,6 +174,16 @@ object List {
     // Exercise 3.14
     def append2(a2: List[A]): List[A] =
       a2.foldRight(l) { (a, acc) => Cons(a, acc)}
+
+    // exercise 3.18
+    def map[B](f: (A) => B): List[B] = {
+      @annotation.tailrec
+      def sub(as:List[A], acc:List[B]): List[B] = as match {
+        case Cons(head, tail) => sub(tail, acc.append(List(f(head))))
+        case Nil => acc
+      }
+      sub(l, List[B]())
+    }
 
   } // ListOps
 

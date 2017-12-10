@@ -193,4 +193,10 @@ class ListTest extends FlatSpec {
 
   it should "handle non-empty lists" in
     assert(List(1, 2, 3).addOne == List(2, 3, 4))
+
+  "toStrings" should "handle empty lists" in
+    assert(Nil.toStrings == Nil)
+
+  it should "handle non-empty lists" in
+    assert(List(1.0, 2.0, 3.0).toStrings == List("1.0", "2.0", "3.0"))
 }
