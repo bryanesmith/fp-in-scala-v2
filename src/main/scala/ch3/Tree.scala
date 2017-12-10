@@ -22,12 +22,21 @@ object Tree {
     */
   implicit class TreeOps[A] (t: Tree[A]) {
 
-    def +(other:Tree[A]): Tree[A] = Branch(t, other)
+    def :+(other:Tree[A]): Tree[A] = Branch(t, other)
 
     // Exercise 3.25
     def size: Int = {
       def go(t1: Tree[A]): Int = t1 match {
         case Branch(l, r) => 1 + go(l) + go(r)
+        case _ => 1
+      }
+      go(t)
+    }
+
+    // Exercise 3.27
+    def depth: Int = {
+      def go(t1: Tree[A]): Int = t1 match {
+        case Branch(l, r) => 1 + go(l).max(go(r))
         case _ => 1
       }
       go(t)
