@@ -60,6 +60,14 @@ object List {
       go(l)
     }
 
+    def append(a2: List[A]): List[A] = {
+      def go(a1: List[A]): List[A] = a1 match {
+        case Nil => a2
+        case Cons(h, t) => Cons(h, go(t))
+      }
+      go(l)
+    }
+
     // Exercise 3.2
     def tail: List[A] = drop(1)
 
@@ -113,6 +121,9 @@ object List {
 
     // Exercise 3.11
     def length: Int = foldLeft(0) { (b, _) => b + 1 }
+
+    // Exercise 3.12
+    def reverse: List[A] = foldLeft(List[A]()) { (acc, a) => Cons(a, acc) }
 
   } // ListOps
 

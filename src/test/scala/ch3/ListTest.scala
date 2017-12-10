@@ -132,4 +132,13 @@ class ListTest extends FlatSpec {
     assert(List(1, 2).length == 2)
     assert(List(1, 2, 3).length == 3)
   }
+
+  "List.reverse" should "handle empty lists" in
+    assert(Nil.reverse == Nil)
+
+  it should "handle non-empty lists" in {
+    assert(List(1).reverse == List(1))
+    assert(List(1, 2).reverse == List(2, 1))
+    assert(List(1, 2, 3).reverse == List(3, 2, 1))
+  }
 }
