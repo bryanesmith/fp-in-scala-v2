@@ -225,7 +225,7 @@ class ListTest extends FlatSpec {
   it should "handle non-empty lists of equal length" in
     assert(List(1, 2, 3).add(List(10, 10, 10)) == List(11, 12, 13))
 
-  it should "handle non-empty lists of non-equal lengths" in {
+  it should "handle non-empty lists of unequal lengths" in {
     assert(List(1, 2, 3, 4).add(List(10, 10, 10)) == List(11, 12, 13))
     assert(List(1, 2, 3).add(List(10, 10, 10, 10)) == List(11, 12, 13))
   }
@@ -240,8 +240,53 @@ class ListTest extends FlatSpec {
   it should "handle non-empty lists of equal length" in
     assert(List(1, 2).zip(List(11, 12)) == List((1, 11), (2, 12)))
 
-  it should "handle non-empty lists of non-equal lengths" in {
+  it should "handle non-empty lists of unequal lengths" in {
     assert(List(1, 2, 3).zip(List(11, 12)) == List((1, 11), (2, 12)))
     assert(List(1, 2).zip(List(11, 12, 13)) == List((1, 11), (2, 12)))
   }
+
+  "forall" should "handle empty lists" in
+    assert(emptyInt.forall(_ => false))
+
+  it should "handle non-empty lists" in {
+    assert(List(1, 2, 3, 4, 5).forall(_ > 0))
+    assert(!List(1, 2, 3, 4, 5).forall(_ > 2))
+  }
+
+  "startWith" should "handle empty lists" in {
+    assert(Nil.startWith(Nil))
+    assert(List(1, 2, 3).startWith(Nil))
+    assert(!Nil.startWith(List(1, 2, 3)))
+  }
+
+  it should "handle non-empty lists of less-than or equal length" in {
+    assert(List(1, 2, 3).startWith(List(1)))
+    assert(List(1, 2, 3).startWith(List(1, 2)))
+    assert(List(1, 2, 3).startWith(List(1, 2, 3)))
+    assert(!List(1, 2, 3).startWith(List(2, 3)))
+  }
+
+  it should "handle non-empty lists of greater size" in
+    assert(!List(1, 2, 3).startWith(List(1, 2, 3, 4)))
+
+  "hasSubsequence" should "handle empty lists" in {
+    assert(Nil.hasSubsequence(Nil))
+    assert(List(1, 2, 3).hasSubsequence(Nil))
+    assert(!Nil.hasSubsequence(List(1, 2, 3)))
+  }
+
+  it should "handle non-empty lists of less-than or equal length" in {
+    assert(List(1, 2, 3).hasSubsequence(List(1)))
+    assert(List(1, 2, 3).hasSubsequence(List(2)))
+    assert(List(1, 2, 3).hasSubsequence(List(3)))
+    assert(List(1, 2, 3).hasSubsequence(List(1, 2)))
+    assert(List(1, 2, 3).hasSubsequence(List(2, 3)))
+    assert(List(1, 2, 3).hasSubsequence(List(1, 2, 3)))
+    assert(!List(1, 2, 3).hasSubsequence(List(4)))
+    assert(!List(1, 2, 3).hasSubsequence(List(3, 4)))
+    assert(!List(1, 2, 3).hasSubsequence(List(2, 1)))
+  }
+
+  it should "handle non-empty lists of greater length" in
+    assert(!List(1, 2, 3).hasSubsequence(List(1, 2, 3, 4)))
 }

@@ -206,6 +206,32 @@ object List {
       sub(l, other, List[B]())
     }
 
+    // Exercise 3.24
+    def forall(f: A => Boolean): Boolean = {
+      @annotation.tailrec
+      def go(as: List[A]): Boolean = as match {
+        case Nil => true
+        case Cons(h, t) if f(h) => go(t)
+        case _ => false
+      }
+      go(l)
+    }
+
+    // Exercise 3.24
+    def startWith(sub: List[A]): Boolean =
+      sub.length <= l.length && l.zip(sub).forall {(pair) => pair._1 == pair._2}
+
+    // Exercise 3.24
+    def hasSubsequence(sub: List[A]): Boolean = {
+      @annotation.tailrec
+      def go(as: List[A]): Boolean = as match {
+        case Cons(h, _) if as.startWith(sub) => true
+        case Cons(h, t) => go(t)
+        case _ => as.startWith(sub)
+      }
+      go(l)
+    }
+
   } // ListOps
 
 } // object List
