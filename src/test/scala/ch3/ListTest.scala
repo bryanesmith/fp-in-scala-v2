@@ -4,13 +4,13 @@ import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
 
-  "List.sum" should "handle empty list" in
+  "sum" should "handle empty list" in
     assert(Nil.sum == 0)
 
   it should "handle non-empty list" in
     assert(List(1,2,3).sum == 6)
 
-  "List.product" should "handle empty list" in
+  "product" should "handle empty list" in
     assert(Nil.product == 1)
 
   it should "handle non-empty list" in
@@ -28,7 +28,7 @@ class ListTest extends FlatSpec {
     assert(found == 3)
   }
 
-  "List.tail" should "handle an empty list" in
+  "tail" should "handle an empty list" in
     assert(Nil.tail == Nil)
 
   it should "handle a list of one" in
@@ -37,13 +37,13 @@ class ListTest extends FlatSpec {
   it should "handle a non-empty list" in
     assert(List(1, 2, 3).tail == List(2, 3))
 
-  "List.setHead" should "handle an empty list" in
+  "setHead" should "handle an empty list" in
     assert(Nil.setHead(1) == List(1))
 
   it should "handle an non-empty list" in
     assert(List(2, 3).setHead(1) == List(1, 2, 3))
 
-  "List.drop" should "handle an empty list" in
+  "drop" should "handle an empty list" in
     assert(Nil.drop(1) == Nil)
 
   it should "handle negative n" in
@@ -61,7 +61,7 @@ class ListTest extends FlatSpec {
   it should "handle n greater length of list" in
     assert(List(1, 2, 3).drop(4) == Nil)
 
-  "List.dropWhile" should "handle an empty list" in
+  "dropWhile" should "handle an empty list" in
     assert(Nil.dropWhile { _: Int => false } == Nil)
 
   it should "handle a predicate that fails on first ele" in
@@ -76,7 +76,7 @@ class ListTest extends FlatSpec {
   it should "handle a predicate that succeeds on all ele" in
     assert(List(1, 2, 3).dropWhile { _ => true } == Nil)
 
-  "List.init" should "handle an empty list" in {
+  "init" should "handle an empty list" in {
     assert(Nil.init == Nil)
     assert(Nil.init.init == Nil)
   }
@@ -88,12 +88,12 @@ class ListTest extends FlatSpec {
   }
 
   // Exercise 3.8
-  "List.tail" should "solve exercise 3.8" in {
+  "tail" should "solve exercise 3.8" in {
     val found = List(1,2,3).foldRight(List[Int]()) { Cons(_,_) }
     assert(List(1, 2, 3) == found )
   }
 
-  "List.lengthRight" should "handle empty list" in
+  "lengthRight" should "handle empty list" in
     assert(Nil.lengthRight == 0)
 
   it should "handle non-empty lists" in {
@@ -102,7 +102,7 @@ class ListTest extends FlatSpec {
     assert(List(1, 2, 3).lengthRight == 3)
   }
 
-  "List.foldLeft" should "be add things" in {
+  "foldLeft" should "be add things" in {
     assert(List[Int]().foldLeft(0)(_ + _) == 0)
     assert(List(1).foldLeft(0)(_ + _) == 1)
     assert(List(1, 2).foldLeft(0)(_ + _) == 3)
@@ -115,7 +115,7 @@ class ListTest extends FlatSpec {
     assert(List("a", "b", "c").foldLeft("")(_ + _) == "abc")
   }
 
-  "List.sum2" should "handle empty list" in
+  "sum2" should "handle empty list" in
     assert(Nil.sum2 == 0)
 
   it should "handle non-empty lists" in {
@@ -123,7 +123,7 @@ class ListTest extends FlatSpec {
     assert(List(1, 2).sum2 == 3)
   }
 
-  "List.product2" should "handle empty list" in
+  "product2" should "handle empty list" in
     assert(Nil.product2 == 1.0)
 
   it should "handle non-empty list" in {
@@ -131,7 +131,7 @@ class ListTest extends FlatSpec {
     assert(List(2.0, 3.0).product2 == 6.0)
   }
 
-  "List.length" should "handle empty list" in
+  "length" should "handle empty list" in
     assert(Nil.length == 0)
 
   it should "handle non-empty lists" in {
@@ -140,7 +140,7 @@ class ListTest extends FlatSpec {
     assert(List(1, 2, 3).length == 3)
   }
 
-  "List.reverse" should "handle empty lists" in
+  "reverse" should "handle empty lists" in
     assert(Nil.reverse == Nil)
 
   it should "handle non-empty lists" in {
@@ -149,7 +149,7 @@ class ListTest extends FlatSpec {
     assert(List(1, 2, 3).reverse == List(3, 2, 1))
   }
 
-  "List.reverseRight" should "handle empty lists" in
+  "reverseRight" should "handle empty lists" in
     assert(Nil.reverseRight == Nil)
 
   it should "handle non-empty lists" in {
@@ -158,7 +158,7 @@ class ListTest extends FlatSpec {
     assert(List(1, 2, 3).reverseRight == List(3, 2, 1))
   }
 
-  "List.foldLeftBad" should "be add things" in {
+  "foldLeftBad" should "be add things" in {
     assert(List[Int]().foldLeftBad(0)(_ + _) == 0)
     assert(List(1).foldLeftBad(0)(_ + _) == 1)
     assert(List(1, 2).foldLeftBad(0)(_ + _) == 3)
@@ -171,7 +171,7 @@ class ListTest extends FlatSpec {
     assert(List("a", "b", "c").foldLeftBad("")(_ + _) == "abc")
   }
 
-  "List.append2" should "handle empty lists" in {
+  "append2" should "handle empty lists" in {
     assert(Nil.append(List(1, 2, 3)) == List(1, 2, 3))
     assert(List(1, 2, 3).append(Nil) == List(1, 2, 3))
     assert(Nil.append(Nil) == Nil)
@@ -180,7 +180,7 @@ class ListTest extends FlatSpec {
   it should "handle non-empty lists" in
     assert(List(1, 2).append(List(3, 4, 5)) == List(1, 2, 3, 4, 5))
 
-  "List.flatten" should "handle empty lists" in {
+  "flatten" should "handle empty lists" in {
     assert(Nil.flatten == Nil)
     assert(List(Nil, Nil, Nil).flatten == Nil)
   }
@@ -188,7 +188,7 @@ class ListTest extends FlatSpec {
   it should "handle non-empty lists" in
     assert(List(List(1, 2), List(3, 4), List(5)).flatten == List(1, 2, 3, 4, 5))
 
-  "List.addOne" should "handle empty lists" in
+  "addOne" should "handle empty lists" in
     assert(Nil.addOne == Nil)
 
   it should "handle non-empty lists" in
