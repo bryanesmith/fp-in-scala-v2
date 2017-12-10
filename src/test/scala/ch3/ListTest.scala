@@ -1,21 +1,20 @@
 package ch3
 
-import ch3.List._
 import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
 
   "List.sum" should "handle empty list" in
-    assert(sum(Nil) == 0)
+    assert(Nil.sum == 0)
 
   it should "handle non-empty list" in
-    assert(sum(List(1,2,3)) == 6)
+    assert(List(1,2,3).sum == 6)
 
   "List.product" should "handle empty list" in
-    assert(product(Nil) == 1)
+    assert(Nil.product == 1)
 
   it should "handle non-empty list" in
-    assert(product(List(2.0, 2.0, 4.0)) == 16.0)
+    assert(List(2.0, 2.0, 4.0).product == 16.0)
 
   // exercise 3.1
   "List" should "solve exercise 3.1" in {
@@ -23,7 +22,7 @@ class ListTest extends FlatSpec {
       case Cons(x, Cons(2, Cons(4, _))) => x
       case Nil => 42
       case Cons(x, Cons(y, Cons(3, Cons(4, _)))) => x + y
-      case Cons(h, t) => h + List.sum(t)
+      case Cons(h, t) => h + t.sum
       case _ => 101
     }
     assert(found == 3)
@@ -108,19 +107,19 @@ class ListTest extends FlatSpec {
   }
 
   "List.sum2" should "handle empty list" in
-    assert(List.sum2(Nil) == 0)
+    assert(Nil.sum2 == 0)
 
   it should "handle non-empty lists" in {
-    assert(List.sum2(List(1)) == 1)
-    assert(List.sum2(List(1, 2)) == 3)
+    assert(List(1).sum2 == 1)
+    assert(List(1, 2).sum2 == 3)
   }
 
   "List.product2" should "handle empty list" in
-    assert(List.product2(Nil) == 1.0)
+    assert(Nil.product2 == 1.0)
 
   it should "handle non-empty list" in {
-    assert(List.product2(List(2.0)) == 2.0)
-    assert(List.product2(List(2.0, 3.0)) == 6.0)
+    assert(List(2.0).product2 == 2.0)
+    assert(List(2.0, 3.0).product2 == 6.0)
   }
 
   "List.length" should "handle empty list" in

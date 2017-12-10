@@ -6,27 +6,50 @@ case class Cons[+A](head: A, tail: List[A]) extends List[A]
 
 object List {
 
-  def sum(ints: List[Int]): Int = ints match {
-    case Nil => 0
-    case Cons(x:Int, xs:List[Int]) => x + sum(xs)
-  }
-
-  def product(ds: List[Double]): Double = ds match {
-    case Nil => 1.0
-    case Cons(0.0, _) => 0.0
-    case Cons(x: Double, xs: List[Double]) => x * product(xs);
-  }
-
-  // Exercise 3.11
-  def sum2(ints: List[Int]): Int = ints.foldLeft(0) { _ + _ }
-
-  // Exercise 3.11
-  def product2(ints: List[Double]): Double = ints.foldLeft(1.0) { _ * _ }
-
   def apply[A](as: A*): List[A] =
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
+  /**
+    * So I can use infix methods on Lists of Int
+    */
+  implicit class IntListOps[A <: Int] (l: List[A]) {
+
+    def sum: Int = {
+      def go(ints: List[Int]): Int = ints match {
+        case Nil => 0
+        case Cons(x:Int, xs:List[Int]) => x + go(xs)
+      }
+      go(l)
+    }
+
+    // Exercise 3.11
+    def sum2: Int = l.foldLeft(0) { _ + _ }
+
+  } // IntListOps
+
+  /**
+    * So I can use infix methods on Lists of Double
+    */
+  implicit class DoubleListOps[A <: Double] (l: List[A]) {
+
+    def product(): Double = {
+      def go(ds: List[Double]): Double = ds match {
+        case Nil => 1.0
+        case Cons(0.0, _) => 0.0
+        case Cons(x: Double, xs: List[Double]) => x * go(xs);
+      }
+      go(l)
+    }
+
+    // Exercise 3.11
+    def product2(): Double = l.foldLeft(1.0) { _ * _ }
+
+  } // DoubleListOps
+
+  /**
+    * So I can use infix methods on any type of List
+    */
   implicit class ListOps[A] (l: List[A]) {
 
     def foldRight[B](z: B)(f: (A, B) => B): B = {
