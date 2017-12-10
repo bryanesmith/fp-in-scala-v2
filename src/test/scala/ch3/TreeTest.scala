@@ -25,4 +25,12 @@ class TreeTest extends FlatSpec {
     assert((Leaf(1) :+ Leaf(2) :+ Leaf(3)).depth == 3)
     assert((Leaf(1) :+ Leaf(2) :+ Leaf(3) :+ Leaf(4)).depth == 4)
   }
+
+  "map" should "handle leaf" in
+    assert(Leaf(2).map(_ + 1) == Leaf(3))
+
+  it should "handle branches" in
+    assert(
+      (Leaf(2) :+ Leaf(3) :+ Leaf(4)) == (Leaf(1) :+ Leaf(2) :+ Leaf(3)).map(_ + 1)
+    )
 }

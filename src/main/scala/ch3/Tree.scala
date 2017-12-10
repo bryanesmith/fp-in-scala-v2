@@ -42,5 +42,14 @@ object Tree {
       go(t)
     }
 
+    // Exercise 3.28
+    def map[B](f: (A) => B): Tree[B] = {
+      def go(t1: Tree[A]): Tree[B] = t1 match {
+        case Branch(l, r) => Branch(go(l), go(r))
+        case Leaf(a) => Leaf(f(a))
+      }
+      go(t)
+    }
+
   } // TreeOps
 }
