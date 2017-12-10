@@ -21,7 +21,6 @@ object List {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
-  // To avoid prefix-based function...
   implicit class ListOps[A] (l: List[A]) {
 
     def foldRight[B](z: B)(f: (A, B) => B): B = {
@@ -70,7 +69,10 @@ object List {
       go(l)
     }
 
-  }
+    // Exercise 3.9
+    def length: Int = foldRight(0) { (_, b) => b + 1 }
 
-}
+  } // ListOps
+
+} // object List
 

@@ -92,4 +92,13 @@ class ListTest extends FlatSpec {
   "List.tail" should "solve exercise 3.8" in
     assert( List(1, 2, 3) == List(1,2,3).foldRight(Nil: List[Int]){ Cons(_,_) } )
 
+  "List.length" should "handle empty list" in
+    assert(Nil.length == 0)
+
+  it should "handle non-empty list" in {
+    assert(List(1).length == 1)
+    assert(List(1, 2).length == 2)
+    assert(List(1, 2, 3).length == 3)
+  }
+
 }
