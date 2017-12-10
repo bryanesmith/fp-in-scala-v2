@@ -3,26 +3,25 @@ package ch3
 import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
-  behavior of "A List"
 
-  it should "sum empty list" in {
+  "List.sum" should "handle empty list" in {
     assert(List.sum(Nil) == 0)
   }
 
-  it should "sum non-empty list" in {
+  it should "handle non-empty list" in {
     assert(List.sum(List(1,2,3)) == 6)
   }
 
-  it should "product empty list" in {
+  "List.product" should "handle empty list" in {
     assert(List.product(Nil) == 1)
   }
 
-  it should "product non-empty list" in {
+  it should "handle non-empty list" in {
     assert(List.product(List(2.0, 2.0, 4.0)) == 16.0)
   }
 
   // exercise 3.1
-  it should "solve exercise 3.1" in {
+  "List" should "solve exercise 3.1" in {
     val found = List(1, 2, 3, 4, 5) match {
       case Cons(x, Cons(2, Cons(4, _))) => x
       case Nil => 42
@@ -33,15 +32,25 @@ class ListTest extends FlatSpec {
     assert(found == 3)
   }
 
-  it should "tail an empty list" in {
+  "List.tail" should "handle an empty list" in {
     assert(List.tail(Nil) == Nil)
   }
 
-  it should "tail list of one" in {
+  it should "handle a list of one" in {
     assert(List.tail(List(1)) == Nil)
   }
 
-  it should "tail a non-empty list" in {
+  it should "handle a non-empty list" in {
     assert(List.tail(List(1, 2, 3)) == List(2, 3))
   }
+
+  "List.setHead" should "handle an empty list" in {
+    assert(List.setHead(1, Nil) == List(1))
+  }
+
+  it should "handle an non-empty list" in {
+    assert(List.setHead(1, List(2, 3)) == List(1, 2, 3))
+  }
+
+
 }

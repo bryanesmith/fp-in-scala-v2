@@ -22,9 +22,12 @@ object List {
     else Cons(as.head, apply(as.tail: _*))
 
   // Exercise 3.2
-  def tail[A](l:List[A]): List[A] = l match {
+  def tail[A](as:List[A]): List[A] = as match {
     case Nil => Nil
     case Cons(_, tail: List[A]) => tail
   }
+
+  // Exercise 3.3
+  def setHead[A](a:A, as:List[A]) = Cons(a, as)
 
 }
