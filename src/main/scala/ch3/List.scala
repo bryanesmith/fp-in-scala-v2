@@ -15,8 +15,6 @@ object List {
     */
   implicit class IntListOps[A <: Int] (l: List[A]) {
 
-    private val empty = List[Int]()
-
     def sum: Int = {
       def go(ints: List[Int]): Int = ints match {
         case Nil => 0
@@ -29,7 +27,7 @@ object List {
     def sum2: Int = l.foldLeft(0) { _ + _ }
 
     // Exercise 3.16
-    def addOne: List[Int] = l.map(_ + 1)
+    def plusOne: List[Int] = l.map(_ + 1)
 
   } // IntListOps
 
@@ -60,13 +58,11 @@ object List {
     */
   implicit class ListListOps[A] (l: List[List[A]]) {
 
-    private val empty = List[A]()
-
     // Exercise 3.15 - O(n log n)
-//    def flatten: List[A] = l.foldLeft(empty) { (acc: List[A], next:List[A]) => acc.append(next) }
+//    def flatten: List[A] = l.foldLeft(List[A]()) { (acc: List[A], next:List[A]) => acc.append(next) }
 
     // Exercise 3.15 - O(2n) but tailrec
-//    def flatten: List[A] =  l.foldLeft(empty) {
+//    def flatten: List[A] =  l.foldLeft(List[A]()) {
 //      (acc: List[A], next:List[A]) => next.foldLeft(acc) { (z, a) => Cons(a, z) }
 //    }.reverse
 
@@ -185,13 +181,10 @@ object List {
       sub(l, List[B]())
     }
 
-    // exercise 3.19
-    def filter(f: A => Boolean): List[A] =
-      l.foldLeft(empty)((acc, a) => if (f(a)) {
-        acc.append(List(a))
-      } else {
-        acc
-      })
+    // exercise 3.19, 3.21
+    def filter(f: A => Boolean): List[A] = l.flatMap {(a) =>
+      if (f(a)) { List(a) } else { Nil }
+    }
 
     // exercise 3.20
     def flatMap[B](f: A => List[B]): List[B] = l.map(f).flatten
