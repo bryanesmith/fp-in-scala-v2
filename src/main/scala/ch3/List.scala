@@ -52,7 +52,7 @@ object List {
     */
   implicit class ListOps[A] (l: List[A]) {
 
-    def foldRight[B](z: B)(f: (A, B) => B): B = {
+    def foldRightBad[B](z: B)(f: (A, B) => B): B = {
       def go(as: List[A]): B = as match {
         case Nil => z
         case Cons(x, xs) => f(x, go(xs))
@@ -124,6 +124,17 @@ object List {
 
     // Exercise 3.12
     def reverse: List[A] = foldLeft(List[A]()) { (acc, a) => Cons(a, acc) }
+
+    // Exercise 3.13
+    def reverseRight: List[A] = foldRight(List[A]()) { (a, acc) => acc.append(List(a)) }
+
+    // Exercise 3.13
+    def foldLeftBad[B](z:B)(f: (B, A) => B): B =
+      this.reverseRight.foldRightBad(z)((a: A, b: B) => f(b, a))
+
+    // Exercise 3.13
+    def foldRight[B](z:B)(f: (A, B) => B): B =
+      this.reverse.foldLeft(z)((b: B, a: A) => f(a, b))
 
   } // ListOps
 

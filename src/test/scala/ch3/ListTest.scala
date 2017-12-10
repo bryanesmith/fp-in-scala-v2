@@ -89,7 +89,7 @@ class ListTest extends FlatSpec {
 
   // Exercise 3.8
   "List.tail" should "solve exercise 3.8" in {
-    val found = List(1,2,3).foldRight(Nil: List[Int]) { Cons(_,_) }
+    val found = List(1,2,3).foldRight(List[Int]()) { Cons(_,_) }
     assert(List(1, 2, 3) == found )
   }
 
@@ -103,9 +103,16 @@ class ListTest extends FlatSpec {
   }
 
   "List.foldLeft" should "be add things" in {
-    assert(Nil.asInstanceOf[List[Int]].foldLeft(0)(_ + _) == 0)
+    assert(List[Int]().foldLeft(0)(_ + _) == 0)
     assert(List(1).foldLeft(0)(_ + _) == 1)
     assert(List(1, 2).foldLeft(0)(_ + _) == 3)
+  }
+
+  it should "concatenate strings forwards" in {
+    assert(List[String]().foldLeft("")(_ + _) == "")
+    assert(List("a").foldLeft("")(_ + _) == "a")
+    assert(List("a", "b").foldLeft("")(_ + _) == "ab")
+    assert(List("a", "b", "c").foldLeft("")(_ + _) == "abc")
   }
 
   "List.sum2" should "handle empty list" in
@@ -140,5 +147,27 @@ class ListTest extends FlatSpec {
     assert(List(1).reverse == List(1))
     assert(List(1, 2).reverse == List(2, 1))
     assert(List(1, 2, 3).reverse == List(3, 2, 1))
+  }
+
+  "List.reverseRight" should "handle empty lists" in
+    assert(Nil.reverseRight == Nil)
+
+  it should "handle non-empty lists" in {
+    assert(List(1).reverseRight == List(1))
+    assert(List(1, 2).reverseRight == List(2, 1))
+    assert(List(1, 2, 3).reverseRight == List(3, 2, 1))
+  }
+
+  "List.foldLeftBad" should "be add things" in {
+    assert(List[Int]().foldLeftBad(0)(_ + _) == 0)
+    assert(List(1).foldLeftBad(0)(_ + _) == 1)
+    assert(List(1, 2).foldLeftBad(0)(_ + _) == 3)
+  }
+
+  it should "concatenate strings forwards" in {
+    assert(List[String]().foldLeftBad("")(_ + _) == "")
+    assert(List("a").foldLeftBad("")(_ + _) == "a")
+    assert(List("a", "b").foldLeftBad("")(_ + _) == "ab")
+    assert(List("a", "b", "c").foldLeftBad("")(_ + _) == "abc")
   }
 }
