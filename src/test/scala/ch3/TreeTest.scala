@@ -8,9 +8,12 @@ class TreeTest extends FlatSpec {
   "size" should "handle leaf" in
     assert(Leaf(1).size == 1)
 
-  it should "handle branches" in {
-    val branch1 = Leaf(1) + Leaf(2)
-    assert(branch1.size == 3)
-    assert((branch1 + branch1).size == 7)
-  }
+  it should "handle branches" in
+    assert((Leaf(1) + Leaf(2) + Leaf(3) + Leaf(4)).size == 7)
+
+  "maximum" should "handle leaf" in
+    assert(Leaf(-2).maximum == -2)
+
+  it should "handle branches" in
+    assert((Leaf(-3) + Leaf(1) + Leaf(2) + Leaf(-7)).maximum == 2)
 }

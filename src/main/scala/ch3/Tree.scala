@@ -6,6 +6,17 @@ case class Branch[A](left: Tree[A], right: Tree[A]) extends Tree[A]
 
 object Tree {
 
+  implicit class IntTreeOps (t: Tree[Int]) {
+    // Exercise 3.26
+    def maximum: Int = {
+      def go(t1: Tree[Int]): Int = t1 match {
+        case Branch(l, r) => go(l).max(go(r))
+        case Leaf(a) => a
+      }
+      go(t)
+    }
+  }
+
   /**
     * So I can use infix methods on trees
     */
