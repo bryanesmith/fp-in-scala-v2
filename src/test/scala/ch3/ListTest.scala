@@ -215,4 +215,33 @@ class ListTest extends FlatSpec {
 
   it should "flatMap ftw" in
     assert(List(1, 2, 3).flatMap(i => List(i, i)) == List(1, 1, 2, 2, 3, 3))
+
+  "add" should "handle empty lists" in {
+    assert(emptyInt.add(emptyInt) == emptyInt)
+    assert(emptyInt.add(List(1,2,3)) == emptyInt)
+    assert(List(1,2,3).add(emptyInt) == emptyInt)
+  }
+
+  it should "handle non-empty lists of equal length" in
+    assert(List(1, 2, 3).add(List(10, 10, 10)) == List(11, 12, 13))
+
+  it should "handle non-empty lists of non-equal lengths" in {
+    assert(List(1, 2, 3, 4).add(List(10, 10, 10)) == List(11, 12, 13))
+    assert(List(1, 2, 3).add(List(10, 10, 10, 10)) == List(11, 12, 13))
+  }
+
+  "zip" should "handle empty lists" in {
+    val empty = List[(Int,Int)]()
+    assert(emptyInt.zip(emptyInt) == empty)
+    assert(List(1, 2).zip(emptyInt) == empty)
+    assert(emptyInt.zip(List(1, 2)) == empty)
+  }
+
+  it should "handle non-empty lists of equal length" in
+    assert(List(1, 2).zip(List(11, 12)) == List((1, 11), (2, 12)))
+
+  it should "handle non-empty lists of non-equal lengths" in {
+    assert(List(1, 2, 3).zip(List(11, 12)) == List((1, 11), (2, 12)))
+    assert(List(1, 2).zip(List(11, 12, 13)) == List((1, 11), (2, 12)))
+  }
 }

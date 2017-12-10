@@ -13,7 +13,7 @@ object List {
   /**
     * So I can use infix methods on Lists of Int
     */
-  implicit class IntListOps[A <: Int] (l: List[A]) {
+  implicit class IntListOps(l: List[Int]) {
 
     def sum: Int = {
       def go(ints: List[Int]): Int = ints match {
@@ -28,6 +28,9 @@ object List {
 
     // Exercise 3.16
     def plusOne: List[Int] = l.map(_ + 1)
+
+    // Exercise 3.23
+    def add(l2: List[Int]): List[Int] = l.zipWith(l2){ _ + _ }
 
   } // IntListOps
 
@@ -188,6 +191,20 @@ object List {
 
     // exercise 3.20
     def flatMap[B](f: A => List[B]): List[B] = l.map(f).flatten
+
+    // Exercise 3.23
+    def zip(other:List[A]): List[(A,A)] = l.zipWith(other) {(a,b) => (a, b)}
+
+    // Exercise 3.23
+    def zipWith[B](other: List[A])(f: (A,A) => B): List[B] = {
+      @annotation.tailrec
+      def sub(l1: List[A], l2:List[A], acc:List[B]): List[B] = (l1, l2) match {
+        case (Cons(h1, t1), Cons(h2, t2)) => sub(t1, t2, acc.append(List(f(h1, h2))))
+        // "If one of the two collections is longer than the other, its remaining elements are ignored."
+        case _ => acc
+      }
+      sub(l, other, List[B]())
+    }
 
   } // ListOps
 
