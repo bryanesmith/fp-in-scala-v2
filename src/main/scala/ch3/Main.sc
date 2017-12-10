@@ -1,5 +1,6 @@
 import ch3._
+import ch3.List._
 
-List.sum(List(1, 2, 3))
+sum(List(1, 2, 3))
 
-List.product(List(1.0, 2.0, 3.0))
+product(List(1.0, 2.0, 3.0))

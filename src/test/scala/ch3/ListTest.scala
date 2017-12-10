@@ -1,5 +1,6 @@
 package ch3
 
+import ch3.List.foldRight
 import org.scalatest.FlatSpec
 
 class ListTest extends FlatSpec {
@@ -100,5 +101,11 @@ class ListTest extends FlatSpec {
     assert(List.init(List(1)) == Nil)
     assert(List.init(List(1, 2)) == List(1))
     assert(List.init(List(1, 2, 3)) == List(1, 2))
+  }
+
+  // Exercise 3.8
+  "List.tail" should "solve exercise 3.8" in {
+    val found = foldRight(List(1,2,3), Nil: List[Int])(Cons(_,_))
+    assert(found == List(1, 2, 3))
   }
 }

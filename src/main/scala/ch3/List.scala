@@ -21,6 +21,12 @@ object List {
     if (as.isEmpty) Nil
     else Cons(as.head, apply(as.tail: _*))
 
+  def foldRight[A, B](as: List[A], z: B)(f: (A, B) => B): B =
+    as match {
+      case Nil => z
+      case Cons(x, xs) => f(x, foldRight(xs, z)(f))
+    }
+
   // Exercise 3.2
   def tail[A](as:List[A]): List[A] = drop(as, 1)
 
@@ -49,5 +55,7 @@ object List {
     case Cons(a:A, Nil) => Nil
     case Cons(head:A, tail:List[A]) => Cons(head, init(tail))
   }
+
+
 
 }
