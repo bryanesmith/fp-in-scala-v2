@@ -30,7 +30,7 @@ object List {
     def plusOne: List[Int] = l.map(_ + 1)
 
     // Exercise 3.23
-    def add(l2: List[Int]): List[Int] = l.zipWith(l2){ _ + _ }
+    def add(l2: List[Int]): List[Int] = l.zipWith(l2) { _ + _ }
 
   } // IntListOps
 
@@ -103,7 +103,7 @@ object List {
     }
 
     // Exercise 3.2
-    def tail: List[A] = drop(1)
+    def tail: List[A] = l.drop(1)
 
     // Exercise 3.3
     def setHead(a:A) = Cons(a, l)
@@ -141,7 +141,7 @@ object List {
     }
 
     // Exercise 3.9
-    def lengthRight: Int = foldRight(0) { (_, b) => b + 1 }
+    def lengthRight: Int = l.foldRight(0) { (_, b) => b + 1 }
 
     // Exercise 3.10
     def foldLeft[B](z:B)(f: (B, A) => B): B = {
@@ -154,21 +154,21 @@ object List {
     }
 
     // Exercise 3.11
-    def length: Int = foldLeft(0) { (b, _) => b + 1 }
+    def length: Int = l.foldLeft(0) { (b, _) => b + 1 }
 
     // Exercise 3.12
-    def reverse: List[A] = foldLeft(empty) { (acc, a) => Cons(a, acc) }
+    def reverse: List[A] = l.foldLeft(empty) { (acc, a) => Cons(a, acc) }
 
     // Exercise 3.13
-    def reverseRight: List[A] = foldRight(empty) { (a, acc) => acc.append(List(a)) }
+    def reverseRight: List[A] = l.foldRight(empty) { (a, acc) => acc.append(List(a)) }
 
     // Exercise 3.13
     def foldLeftBad[B](z:B)(f: (B, A) => B): B =
-      this.reverseRight.foldRightEatsStack(z)((a: A, b: B) => f(b, a))
+      l.reverseRight.foldRightEatsStack(z)((a: A, b: B) => f(b, a))
 
     // Exercise 3.13
     def foldRight[B](z:B)(f: (A, B) => B): B =
-      this.reverse.foldLeft(z)((b: B, a: A) => f(a, b))
+      l.reverse.foldLeft(z)((b: B, a: A) => f(a, b))
 
     // Exercise 3.14
     def append2(a2: List[A]): List[A] =
