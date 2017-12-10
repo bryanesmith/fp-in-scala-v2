@@ -91,4 +91,14 @@ class ListTest extends FlatSpec {
   it should "handle a predicate that succeeds on all ele" in {
     assert(List.dropWhile(List(1, 2, 3), (_: Int) => true) == Nil)
   }
+
+  "List.init" should "handle an empty list" in {
+    assert(List.init(Nil) == Nil)
+  }
+
+  it should "handle a non-empty list" in {
+    assert(List.init(List(1)) == Nil)
+    assert(List.init(List(1, 2)) == List(1))
+    assert(List.init(List(1, 2, 3)) == List(1, 2))
+  }
 }
