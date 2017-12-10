@@ -136,6 +136,10 @@ object List {
     def foldRight[B](z:B)(f: (A, B) => B): B =
       this.reverse.foldLeft(z)((b: B, a: A) => f(a, b))
 
+    // Exercise 3.14
+    def append2(a2: List[A]): List[A] =
+      a2.foldRight(l) { (a, acc) => Cons(a, acc)}
+
   } // ListOps
 
 } // object List

@@ -170,4 +170,13 @@ class ListTest extends FlatSpec {
     assert(List("a", "b").foldLeftBad("")(_ + _) == "ab")
     assert(List("a", "b", "c").foldLeftBad("")(_ + _) == "abc")
   }
+
+  "List.append2" should "handle empty lists" in {
+    assert(Nil.append(List(1, 2, 3)) == List(1, 2, 3))
+    assert(List(1, 2, 3).append(Nil) == List(1, 2, 3))
+    assert(Nil.append(Nil) == Nil)
+  }
+
+  it should "handle non-empty lists" in
+    assert(List(1, 2).append(List(3, 4, 5)) == List(1, 2, 3, 4, 5))
 }
