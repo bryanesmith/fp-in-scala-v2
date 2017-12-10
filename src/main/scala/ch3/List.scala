@@ -24,11 +24,11 @@ object List {
   implicit class ListOps[A] (l: List[A]) {
 
     def foldRight[B](z: B)(f: (A, B) => B): B = {
-      def go(as: List[A], z: B): B = as match {
+      def go(as: List[A]): B = as match {
         case Nil => z
-        case Cons(x, xs) => f(x, go(xs, z))
+        case Cons(x, xs) => f(x, go(xs))
       }
-      go(l, z)
+      go(l)
     }
 
     // Exercise 3.2
@@ -71,6 +71,16 @@ object List {
 
     // Exercise 3.9
     def length: Int = foldRight(0) { (_, b) => b + 1 }
+
+    // Exercise 3.10
+    def foldLeft[B](z:B)(f: (B, A) => B): B = {
+      @annotation.tailrec
+      def go(as:List[A], acc: B): B = as match {
+        case Nil => acc
+        case Cons(x, xs) => go(xs, f(acc, x))
+      }
+      go(l, z)
+    }
 
   } // ListOps
 

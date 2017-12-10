@@ -101,4 +101,10 @@ class ListTest extends FlatSpec {
     assert(List(1, 2, 3).length == 3)
   }
 
+  "List.foldLeft" should "be add things" in {
+    assert(Nil.asInstanceOf[List[Int]].foldLeft(0)(_ + _) == 0)
+    assert(List(1).foldLeft(0)(_ + _) == 1)
+    assert(List(1, 2).foldLeft(0)(_ + _) == 3)
+  }
+
 }
