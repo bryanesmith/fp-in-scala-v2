@@ -185,6 +185,14 @@ object List {
       sub(l, List[B]())
     }
 
+    // exercise 3.19
+    def filter(f: A => Boolean): List[A] =
+      l.foldLeft(empty)((acc, a) => if (f(a)) {
+        acc.append(List(a))
+      } else {
+        acc
+      })
+
   } // ListOps
 
 } // object List

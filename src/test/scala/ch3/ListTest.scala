@@ -199,4 +199,10 @@ class ListTest extends FlatSpec {
 
   it should "handle non-empty lists" in
     assert(List(1.0, 2.0, 3.0).toStrings == List("1.0", "2.0", "3.0"))
+
+  "filter" should "handle empty lists" in
+    assert(List[Int]().filter(_ => true) == Nil)
+
+  it should "filter out odd numbers"
+    assert(List(1, 2, 3, 4, 5).filter(_ % 2 == 0) == List(2, 4))
 }
