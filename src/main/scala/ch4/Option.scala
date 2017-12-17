@@ -50,6 +50,11 @@ object Option {
     traverse(a) { a => a }
 
   // Exercise 4.5
-  def traverse[A,B](a: Seq[A])(fn: A => Option[B]): Option[Seq[B]] =
-    Some(a.flatMap(a => fn(a).toSeq)).filter(_.length == a.length)
+  def traverse[A,B](as: Seq[A])(fn: A => Option[B]): Option[Seq[B]] =
+    Some(
+      for {
+        a <- as
+        b <- fn(a).toSeq
+      } yield b
+    ).filter(_.length == as.length)
 }
