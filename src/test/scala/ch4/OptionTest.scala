@@ -27,10 +27,12 @@ class OptionTest extends FlatSpec {
     assert(None.getOrElse(5) == 5)
 
   "orElse" should "handle Some" in
-    assert(Some(4).orElse(Some(5)) == Some(4))
+    assert(Some(4).orElse(None) == Some(4))
 
-  it should "handle None" in
+  it should "handle None" in {
     assert(intNone.orElse(Some(5)) == Some(5))
+    assert(intNone.orElse(None) == None)
+  }
 
   "filter" should "handle Some" in {
     assert(Some(4).filter(_ > 3) == Some(4))
