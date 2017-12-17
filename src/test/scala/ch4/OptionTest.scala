@@ -1,6 +1,7 @@
 package ch4
 
 import org.scalatest.FlatSpec
+import ch4.Option._
 
 class OptionTest extends FlatSpec {
 
@@ -42,4 +43,11 @@ class OptionTest extends FlatSpec {
   it should "handle None" in
     assert(intNone.filter(_ > 3) == None)
 
+  "map2" should "handle Some" in
+    assert(map2(Some(1), Some(2))(_ + _) == Some(3))
+
+  it should "handle None" in {
+    assert(map2(Some(1), None)(_ + _) == None)
+    assert(map2(intNone, Some(2))(_ + _) == None)
+  }
 }

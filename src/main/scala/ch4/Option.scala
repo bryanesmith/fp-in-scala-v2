@@ -27,8 +27,22 @@ sealed trait Option[+A] {
     this.flatMap { (a) => if (f(a)) Some(a) else None }
 
   def toSeq: Seq[A] = this.map(a => Seq(a)).getOrElse(Nil)
+
 }
 
 case class Some[+A](get: A) extends Option[A]
 
 case object None extends Option[Nothing]
+
+object Option {
+
+  def lift[A,B] (f: A => B): Option[A] => Option[B] = _ map f
+
+  // Exercise 4.3
+  def map2[A,B,C](aOpt: Option[A], bOpt:Option[B])(f: (A,B) => C): Option[C] =
+    for {
+      a <- aOpt
+      b <- bOpt
+    } yield f(a,b)
+
+}
