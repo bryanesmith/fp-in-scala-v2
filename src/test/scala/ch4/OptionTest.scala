@@ -6,6 +6,7 @@ import ch4.Option._
 class OptionTest extends FlatSpec {
 
   val intNone:Option[Int] = None
+  val intNil:Seq[Int] = Nil
   val optIntNil:Seq[Option[Int]] = Nil
 
   "map" should "handle Some" in
@@ -64,5 +65,18 @@ class OptionTest extends FlatSpec {
     assert { sequence(Seq(intNone)) == None }
     assert { sequence(Seq(Some(1.0), None)) == None }
     assert { sequence(Seq(intNone, Some(2.0))) == None }
+  }
+
+  "traverse" should "handle empty list" in
+    assert { traverse(intNil)(a => Some(a)) == Some(Nil) }
+
+  it should "handle non-empty lists that will contain all Some" in {
+    assert { traverse(Seq(1.0))(a => Some(a)) == Some(Seq(1.0))}
+    assert { traverse(Seq(1.0, 2.0))(a => Some(a)) == Some(Seq(1.0, 2.0))}
+  }
+
+  it should "handle non-empty lists that will contain None" in {
+    assert { traverse(Seq(1.0))(a => None) == None }
+    assert { traverse(Seq(1.0, 2.0))(a => if (a==1.0) Some(a) else None) == None }
   }
 }

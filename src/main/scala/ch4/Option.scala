@@ -47,5 +47,9 @@ object Option {
 
   // Exercise 4.4
   def sequence[A](a: Seq[Option[A]]): Option[Seq[A]] =
-    Some(a.flatMap(_.toSeq)).filter(_.length == a.length)
+    traverse(a) { a => a }
+
+  // Exercise 4.5
+  def traverse[A,B](a: Seq[A])(fn: A => Option[B]): Option[Seq[B]] =
+    Some(a.flatMap(a => fn(a).toSeq)).filter(_.length == a.length)
 }
