@@ -39,11 +39,11 @@ object Option {
   def lift[A,B] (f: A => B): Option[A] => Option[B] = _ map f
 
   // Exercise 4.3
-  def map2[A,B,C](aOpt: Option[A], bOpt:Option[B])(f: (A,B) => C): Option[C] =
+  def map2[A,B,C](a: Option[A], b:Option[B])(f: (A,B) => C): Option[C] =
     for {
-      a <- aOpt
-      b <- bOpt
-    } yield f(a,b)
+      aVal <- a
+      bVal <- b
+    } yield f(aVal,bVal)
 
   // Exercise 4.4
   def sequence[A](a: Seq[Option[A]]): Option[Seq[A]] =
