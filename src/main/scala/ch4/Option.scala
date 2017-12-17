@@ -47,9 +47,5 @@ object Option {
 
   // Exercise 4.4
   def sequence[A](a: Seq[Option[A]]): Option[Seq[A]] =
-    if (a.contains(None)) {
-      None
-    } else {
-      Some(a.flatMap(_.toSeq))
-    }
+    Some(a.flatMap(_.toSeq)).filter(_.length == a.length)
 }
