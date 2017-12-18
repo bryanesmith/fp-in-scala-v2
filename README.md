@@ -6,7 +6,7 @@
 
 ## Notes
 
-I also have [some notes](https://github.com/bryanesmith/notes/tree/master/chiusano-et-al.functional-programming-in-scala).
+I also have [some notes](https://github.com/bryanesmith/notes/tree/master/Functional%20Programming%20in%20Scala).
 
 ## Install
 
