@@ -131,6 +131,14 @@ object Stream {
   def apply[A](as: A*): Stream[A] =
     if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 
+  // Exercise 5.8
+  def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+
+  val ones: Stream[Int] = constant(1)
+
+  // Exercise 5.9
+  def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
+
   implicit class StreamOps[A] (s: Stream[A]) {
     // unlike apply, this is a lazy variadic constructor
     def :+(a: => A): Stream[A] = cons(a, s)

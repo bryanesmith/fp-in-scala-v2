@@ -156,4 +156,9 @@ class StreamTest extends FlatSpec {
   it should "handle non-empty streams" in
     assert { (Stream(1, 2, 3) ++ Stream(4, 5)).toList == List(1, 2, 3, 4, 5) }
 
+  "ones" should "terminate" in
+    assert { Stream.ones.take(3).toList == List(1, 1, 1) }
+
+  "from" should "increment on demand" in
+    assert { Stream.from(10).take(5).toList == List(10, 11, 12, 13, 14) }
 }
