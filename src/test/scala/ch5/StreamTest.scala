@@ -173,4 +173,15 @@ class StreamTest extends FlatSpec {
     assert { Stream(1, 2).tail.toList == List(2) }
     assert { Stream(1, 2, 3).tail.toList == List(2, 3) }
   }
+
+  "zipWith" should "handle empty streams" in
+    assert { Stream.empty[Int].zipWith(Stream.empty[Int]) { _ + _ } == Stream.empty }
+
+  it should "handle streams of uneven sizes" in {
+    assert { Stream.ones.zipWith(Stream(1, 2, 3)){ _ + _ }.toList == List(2, 3, 4) }
+    assert { Stream(1, 2, 3).zipWith(Stream.ones){ _ + _ }.toList == List(2, 3, 4) }
+  }
+
+  it should "handle streams of even sizes" in
+    assert { Stream(1, 2, 3).zipWith(Stream(4, 5, 6)){ _ + _ }.toList == List(5, 7, 9) }
 }

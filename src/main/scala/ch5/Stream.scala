@@ -135,6 +135,14 @@ sealed trait Stream[+A] {
   def ++[T >: A](other: Stream[T]): Stream[T] =
     this.foldRight(other) { (a, b) => Stream.cons(a, b) }
 
+  // Exercise 5.13
+  def zipWith[B >: A,C](other: Stream[B])(f: (B,B) => C): Stream[C] =
+    Stream.unfold((this, other))({
+      case (Cons(h1, t1), Cons(h2, t2)) =>
+        Some((f(h1(), h2()), (t1(), t2())))
+      case _ => None
+    })
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
