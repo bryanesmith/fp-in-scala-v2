@@ -53,7 +53,7 @@ class StreamTest extends FlatSpec {
     assert(Stream.empty[Int].takeWhile(_ => true) == Stream.empty)
 
   it should "handle non-empty streams" in {
-    assert(Stream(1, 2, 3).takeWhile(_ => false).toList == Nil)
+    assert(Stream(1, 2, 3).takeWhile(_ != 1).toList == Nil)
     assert(Stream(1, 2, 3).takeWhile(_ % 2 == 1).toList == List(1))
     assert(Stream(1, 2, 3).takeWhile(_ <= 2).toList == List(1, 2))
     assert(Stream(1, 2, 3).takeWhile(_ => true).toList == List(1, 2, 3))

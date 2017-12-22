@@ -37,14 +37,18 @@ sealed trait Stream[+A] {
   }
 
   // Exercise 5.3
-  def takeWhile(p: A => Boolean): Stream[A] = {
-    @annotation.tailrec
-    def go(s: Stream[A], acc: List[A]): Stream[A] = s match {
-      case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
-      case _ => Stream(acc: _*) // Empty or predicate fails
-    }
-    go(this, Nil)
-  }
+//  def takeWhile(p: A => Boolean): Stream[A] = {
+//    @annotation.tailrec
+//    def go(s: Stream[A], acc: List[A]): Stream[A] = s match {
+//      case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
+//      case _ => Stream(acc: _*) // Empty or predicate fails
+//    }
+//    go(this, Nil)
+//  }
+
+  // Exercise 5.5
+  def takeWhile(p: A => Boolean): Stream[A] =
+    this.foldRight(Stream.empty[A]) { (a,b) => if (p(a)) Stream.cons(a, b.takeWhile(p)) else Empty }
 
   def contains[T >: A](t: T): Boolean = this.exists(_ == t)
 
