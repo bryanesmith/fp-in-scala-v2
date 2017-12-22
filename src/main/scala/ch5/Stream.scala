@@ -7,7 +7,6 @@ sealed trait Stream[+A] {
     case Cons(h, _) => Some(h())
   }
 
-  // TODO: O(n^2) due to List append.
   // Exercise 5.1
   def toList: List[A] = {
     @annotation.tailrec
@@ -19,7 +18,6 @@ sealed trait Stream[+A] {
     go(this, Nil)
   }
 
-  // TODO: O(n^2) due to List append.
   // Exercise 5.2
   def take(n: Int): Stream[A] = {
     @annotation.tailrec
@@ -30,7 +28,7 @@ sealed trait Stream[+A] {
     go(this, n, Nil)
   }
 
-  // Exercise 5.2 - O(n)
+  // Exercise 5.2
   @annotation.tailrec
   final def drop(n: Int): Stream[A] = this match {
     case Cons(_, t) if n > 0 => t().drop(n - 1)
@@ -38,7 +36,6 @@ sealed trait Stream[+A] {
     case _ => Empty  // Empty or n < 0
   }
 
-  // TODO: O(n^2) due to List append.
   // Exercise 5.3
   def takeWhile(p: A => Boolean): Stream[A] = {
     @annotation.tailrec
