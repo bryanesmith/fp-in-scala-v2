@@ -115,20 +115,31 @@ class StreamTest extends FlatSpec {
     assert(!s.forAll(_ != 3))
   }
 
-  "map" should "handle empty streams" in ???
+  "map" should "handle empty streams" in
+    assert { Stream.empty[Int].map(_ + 1) == Empty }
 
-  it should "handle non-empty streams" in ???
+  it should "handle non-empty streams" in
+    assert { Stream(1, 2, 3).map( _ + 1).toList == List(2, 3, 4) }
 
-  "filter" should "handle empty streams" in ???
+  "filter" should "handle empty streams" in
+    assert { Stream.empty[Int].map(_ % 2 == 0) == Empty }
 
-  it should "handle non-empty streams" in ???
+  it should "handle non-empty streams" in
+    assert { Stream(1, 2, 3, 4, 5).filter(_ % 2 == 0).toList == List(2, 4) }
 
-  "append" should "handle empty streams" in ???
+  "append" should "handle empty streams" in
+    assert { Stream.empty[Int].append(1).toList == List(1) }
 
-  it should "handle non-empty streams" in ???
+  it should "handle non-empty streams" in
+    assert { Stream(1, 2).append(3).toList == List(1, 2, 3) }
 
-  "flatMap" should "handle empty streams" in ???
+  "flatMap" should "handle empty streams" in
+    assert { Stream.empty[Int].flatMap(i => Stream(i + 1)) == Empty }
 
-  it should "handle non-empty streams" in ???
+  it should "handle non-empty streams" in
+    assert {
+      Stream(1, 2, 3).flatMap(i => Stream(i + 1)).toList == List(2, 3, 4)
+      Stream(1, 2, 3).flatMap(i => if (i % 2 == 0) Empty else Stream(i + 1)).toList == List(2, 4)
+    }
 
 }
