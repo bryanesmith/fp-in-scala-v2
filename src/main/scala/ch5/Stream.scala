@@ -39,11 +39,9 @@ sealed trait Stream[+A] {
   // Exercise 5.3
   def takeWhile(p: A => Boolean): Stream[A] = {
     @annotation.tailrec
-    def go(s: Stream[A], acc: List[A]): Stream[A] = {
-      s match {
-        case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
-        case _ => Stream(acc: _*)
-      }
+    def go(s: Stream[A], acc: List[A]): Stream[A] = s match {
+      case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
+      case _ => Stream(acc: _*)
     }
     go(this, Nil)
   }
