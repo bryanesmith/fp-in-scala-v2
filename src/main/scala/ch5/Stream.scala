@@ -59,7 +59,7 @@ sealed trait Stream[+A] {
 
   // lazy, but not tailrec.
   final def find(p: A => Boolean): Option[A] =
-    this.foldRight(Option.empty[A])((a, b) => if (p(a)) Some(a) else b)
+    this.foldRight(Option.empty[A]) { (a, b) => if (p(a)) Some(a) else b }
 
   // tailrec, but non-lazy.
 //  @annotation.tailrec
@@ -87,10 +87,11 @@ sealed trait Stream[+A] {
 
   // Exercise 5.4
   def forAll(p: A => Boolean): Boolean =
-    this.foldRight(true)((a, b) => if (!p(a)) false else b)
+    this.foldRight(true) { (a, b) => if (!p(a)) false else b }
 
   // Exercise 5.7
-  def map[B](f: A => B): Stream[B] = ???
+  def map[B](f: A => B): Stream[B] =
+    this.foldRight(Stream.empty[B]) { (a, b) => Stream.cons(f(a), b) }
 
   // Exercise 5.7
   def filter(f: A => Boolean): Stream[A] = ???
