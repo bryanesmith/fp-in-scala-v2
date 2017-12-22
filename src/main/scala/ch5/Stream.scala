@@ -131,19 +131,24 @@ object Stream {
   def apply[A](as: A*): Stream[A] =
     if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 
-  // Exercise 5.8
-  def constant[A](a: A): Stream[A] = Stream.cons(a, constant(a))
+  // Exercise 5.8, 5.12
+  def constant[A](a: A): Stream[A] =
+    Stream.unfold(a) { s => Some((s, s))}
 
   val ones: Stream[Int] = constant(1)
 
-  // Exercise 5.9
-  def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
+  // Exercise 5.9, 5.12
+  def from(n: Int): Stream[Int] =
+    Stream.unfold(n) { i => Some((i, i + 1)) }
 
-  def fibs: Stream[Int] = {
-    def go(prev: Int, next: Int): Stream[Int] =
-      Stream.cons(next, go(next, prev + next))
+  // Exercise 5.10, 5.12
+  def fibs: Stream[Int] =
+    Stream.unfold((0, 1)) { case((l, r)) => Some((l, (r, l + r))) }
 
-    Stream.cons(0, go(0, 1))
+  // Exercise 5.11
+  def unfold[A, S](z: S)(f: S => Option[(A, S)]): Stream[A] = f(z) match {
+    case Some((a, s)) => Stream.cons(a, unfold(s)(f))
+    case None => Empty
   }
 
   implicit class StreamOps[A] (s: Stream[A]) {
