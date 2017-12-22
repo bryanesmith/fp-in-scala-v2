@@ -133,6 +133,11 @@ class StreamTest extends FlatSpec {
   it should "handle non-empty streams" in
     assert { Stream(1, 2).append(3).toList == List(1, 2, 3) }
 
+  it should "be lazy" in {
+    val s = Stream(1, 2, 3).append(sys.error("foo"))
+    assert(s.takeWhile(_ < 3).toList == List(1, 2))
+  }
+
   "flatMap" should "handle empty streams" in
     assert { Stream.empty[Int].flatMap(i => Stream(i + 1)) == Empty }
 

@@ -58,8 +58,7 @@ sealed trait Stream[+A] {
   def exists(p: A => Boolean): Boolean = this.find(p).isDefined
 
   // lazy, but not tailrec.
-  final def find(p: A => Boolean): Option[A] =
-    this.foldRight(Option.empty[A]) { (a, b) => if (p(a)) Some(a) else b }
+  final def find(p: A => Boolean): Option[A] = this.filter(p).headOption
 
   // tailrec, but non-lazy.
 //  @annotation.tailrec
@@ -100,7 +99,8 @@ sealed trait Stream[+A] {
     }
 
   // Exercise 5.7
-  def append[T >: A](a: T): Stream[T] = this ++ Stream(a)
+  def append[T >: A](a: => T): Stream[T] =
+     this ++ Stream.cons(a, Empty)
 
   // Exercise 5.7
   def flatMap[B](f: A => Stream[B]): Stream[B] =
