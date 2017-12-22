@@ -94,7 +94,10 @@ sealed trait Stream[+A] {
     this.foldRight(Stream.empty[B]) { (a, b) => Stream.cons(f(a), b) }
 
   // Exercise 5.7
-  def filter(f: A => Boolean): Stream[A] = ???
+  def filter(f: A => Boolean): Stream[A] =
+    this.foldRight(Stream.empty[A]) { (a, b) =>
+      if (f(a)) Stream.cons(a, b.filter(f)) else b.filter(f)
+    }
 
   // Exercise 5.7
   def append[T >: A](a: T): Stream[A] = ???
