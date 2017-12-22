@@ -57,4 +57,47 @@ class StreamTest extends FlatSpec {
     assert(Stream(1, 2, 3).takeWhile(_ <= 2).toList == List(1, 2))
     assert(Stream(1, 2, 3).takeWhile(_ => true).toList == List(1, 2, 3))
   }
+
+  "contains" should "handle empty streams" in
+    assert(!Stream.empty[Int].contains(1))
+
+  it should "return false when non-empty stream doesn't contain element" in
+    assert(!Stream(1, 2, 3).contains(4))
+
+  it should "return true when non-empty stream contains element" in {
+    assert(Stream(1, 2, 3).contains(1))
+    assert(Stream(1, 2, 3).contains(2))
+    assert(Stream(1, 2, 3).contains(3))
+  }
+
+  "exists" should "handle empty streams" in
+    assert(!Stream.empty[Int].exists(_ => true))
+
+  it should "return false when non-empty stream doesn't match predicate" in
+    assert(!Stream(1, 2, 3).exists(_ == 4))
+
+  it should "return true when non-empty stream matches predicate" in {
+    assert(Stream(1, 2, 3).exists(_ == 1))
+    assert(Stream(1, 2, 3).exists(_ == 2))
+    assert(Stream(1, 2, 3).exists(_ == 3))
+  }
+
+  "find" should "handle empty streams" in
+    assert(Stream.empty[Int].find(_ => true).isEmpty)
+
+  it should "return None when non-empty stream doesn't match predicate" in
+    assert(Stream(1, 2, 3).find(_ == 4).isEmpty)
+
+  it should "return Some when non-empty stream matches predicate" in {
+    assert(Stream(1, 2, 3).find(_ == 1).contains(1))
+    assert(Stream(1, 2, 3).find(_ == 2).contains(2))
+    assert(Stream(1, 2, 3).find(_ == 3).contains(3))
+  }
+
+  "foldRight" should "handle empty streams" in
+    assert(Stream.empty[Int].foldRight(0)(_ + _) == 0)
+
+  it should "handle non-empty streams" in
+    assert(Stream(1, 2, 3).foldRight(0)(_ + _) == 6)
+
 }

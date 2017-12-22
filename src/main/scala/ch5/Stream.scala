@@ -45,6 +45,26 @@ sealed trait Stream[+A] {
     }
     go(this, Nil)
   }
+
+  def contains[T >: A](t: T): Boolean = this.exists(_ == t)
+
+  def exists(p: A => Boolean): Boolean = this.find(p).isDefined
+
+  @annotation.tailrec
+  final def find(p: A => Boolean): Option[A] = this match {
+    case Cons(h, _) if p(h()) => Some(h())
+    case Cons(_, t) => t().find(p)
+    case _ => None
+  }
+
+  def foldRight[B](z: => B)(f: (A, => B) => B): B = {
+    @annotation.tailrec
+    def go(s: Stream[A], acc: B): B = s match {
+      case Cons(h, t) => go(t(), f(h(), acc))
+      case _ => acc
+    }
+    go(this, z)
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
