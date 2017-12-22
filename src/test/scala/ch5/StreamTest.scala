@@ -161,4 +161,7 @@ class StreamTest extends FlatSpec {
 
   "from" should "increment on demand" in
     assert { Stream.from(10).take(5).toList == List(10, 11, 12, 13, 14) }
+
+  "fibs" should "generate the Fibonacci sequence" in
+    assert { Stream.fibs.take(7).toList == List(0, 1, 1, 2, 3, 5, 8) }
 }

@@ -139,6 +139,13 @@ object Stream {
   // Exercise 5.9
   def from(n: Int): Stream[Int] = Stream.cons(n, from(n + 1))
 
+  def fibs: Stream[Int] = {
+    def go(prev: Int, next: Int): Stream[Int] =
+      Stream.cons(next, go(next, prev + next))
+
+    Stream.cons(0, go(0, 1))
+  }
+
   implicit class StreamOps[A] (s: Stream[A]) {
     // unlike apply, this is a lazy variadic constructor
     def :+(a: => A): Stream[A] = cons(a, s)
