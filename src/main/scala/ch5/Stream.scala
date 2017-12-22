@@ -27,14 +27,21 @@ sealed trait Stream[+A] {
   }
 
   // Exercise 5.2
-  def take(n: Int): Stream[A] = {
-    @annotation.tailrec
-    def go(s: Stream[A], r: Int, acc: List[A]): Stream[A] = s match {
-      case Cons(h, t) if r > 0 => go(t(), r - 1, acc :+ h()) // Warning: append is O(n)
-      case _ => Stream(acc: _*)
+//  def take(n: Int): Stream[A] = {
+//    @annotation.tailrec
+//    def go(s: Stream[A], r: Int, acc: List[A]): Stream[A] = s match {
+//      case Cons(h, t) if r > 0 => go(t(), r - 1, acc :+ h()) // Warning: append is O(n)
+//      case _ => Stream(acc: _*)
+//    }
+//    go(this, n, Nil)
+//  }
+
+  // Exercise 5.13
+  def take(n: Int): Stream[A] =
+    Stream.unfold(this) { s =>
+      if (n > 0) s.headOption.map { a => (a, s.tail.take(n - 1)) }
+      else None
     }
-    go(this, n, Nil)
-  }
 
   // Exercise 5.2
   @annotation.tailrec
@@ -99,7 +106,7 @@ sealed trait Stream[+A] {
 
   // Exercise 5.13
   def map[B](f: A => B): Stream[B] =
-    Stream.unfold(this)((s:Stream[A]) => s.headOption.map { a => (f(a), s.tail) })
+    Stream.unfold(this)(s => s.headOption.map { a => (f(a), s.tail) })
 
   // Exercise 5.7
   def filter(f: A => Boolean): Stream[A] =
