@@ -7,7 +7,8 @@ sealed trait Stream[+A] {
     case Cons(h, _) => Some(h())
   }
 
-  // Exercise 5.1 - O(n^2)
+  // TODO: O(n^2) due to List append.
+  // Exercise 5.1
   def toList: List[A] = {
     @annotation.tailrec
     def go(s: Stream[A], acc: List[A]): List[A] = s match {
@@ -18,7 +19,8 @@ sealed trait Stream[+A] {
     go(this, Nil)
   }
 
-  // Exercise 5.2 - O(n^2)
+  // TODO: O(n^2) due to List append.
+  // Exercise 5.2
   def take(n: Int): Stream[A] = {
     @annotation.tailrec
     def go(s: Stream[A], r: Int, acc: List[A]): Stream[A] = s match {
