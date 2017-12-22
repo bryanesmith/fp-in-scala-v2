@@ -2,10 +2,13 @@ package ch5
 
 sealed trait Stream[+A] {
 
-  def headOption: Option[A] = this match {
-    case Empty => None
-    case Cons(h, _) => Some(h())
-  }
+//  def headOption: Option[A] = this match {
+//    case Empty => None
+//    case Cons(h, _) => Some(h())
+//  }
+
+  // Exercise 5.6
+  def headOption: Option[A] = this.foldRight(Option.empty[A]) { (a, _) => Some(a) }
 
   // Exercise 5.1
   def toList: List[A] = {
