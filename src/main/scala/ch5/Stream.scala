@@ -37,6 +37,19 @@ sealed trait Stream[+A] {
     case _ if n == 0 => this
     case _ => Empty  // Empty or n < 0
   }
+
+  // TODO: O(n^2) due to List append.
+  // Exercise 5.3
+  def takeWhile(p: A => Boolean): Stream[A] = {
+    @annotation.tailrec
+    def go(s: Stream[A], acc: List[A]): Stream[A] = {
+      s match {
+        case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
+        case _ => Stream(acc: _*)
+      }
+    }
+    go(this, Nil)
+  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]

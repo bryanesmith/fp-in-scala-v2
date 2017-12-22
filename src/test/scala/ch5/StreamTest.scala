@@ -47,4 +47,14 @@ class StreamTest extends FlatSpec {
 
   it should "handle cases where n greater than or equal to stream length" in
     assert(Stream(1, 2, 3).drop(4) == Empty)
+
+  "takeWhile" should "handle Empty" in
+    assert(Stream.empty[Int].takeWhile(_ => true) == Stream.empty)
+
+  it should "handle non-empty streams" in {
+    assert(Stream(1, 2, 3).takeWhile(_ => false).toList == Nil)
+    assert(Stream(1, 2, 3).takeWhile(_ % 2 == 1).toList == List(1))
+    assert(Stream(1, 2, 3).takeWhile(_ <= 2).toList == List(1, 2))
+    assert(Stream(1, 2, 3).takeWhile(_ => true).toList == List(1, 2, 3))
+  }
 }
