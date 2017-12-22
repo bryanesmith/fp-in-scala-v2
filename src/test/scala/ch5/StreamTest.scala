@@ -142,4 +142,13 @@ class StreamTest extends FlatSpec {
       Stream(1, 2, 3).flatMap(i => if (i % 2 == 0) Empty else Stream(i + 1)).toList == List(2, 4)
     }
 
+  "++" should "handle empty streams" in {
+    assert { Stream.empty[Int] ++ Stream.empty[Int] == Stream.empty[Int] }
+    assert { (Stream.empty[Int] ++ Stream(1, 2, 3)).toList == List(1, 2, 3) }
+    assert { (Stream(1, 2, 3) ++ Stream.empty[Int]).toList == List(1, 2, 3) }
+  }
+
+  it should "handle non-empty streams" in
+    assert { (Stream(1, 2, 3) ++ Stream(4, 5)).toList == List(1, 2, 3, 4, 5) }
+
 }
