@@ -41,7 +41,7 @@ sealed trait Stream[+A] {
     @annotation.tailrec
     def go(s: Stream[A], acc: List[A]): Stream[A] = s match {
       case Cons(h, t) if p(h()) => go(t(), acc :+ h()) // Warning: append is O(n)
-      case _ => Stream(acc: _*)
+      case _ => Stream(acc: _*) // Empty or predicate fails
     }
     go(this, Nil)
   }
@@ -50,20 +50,25 @@ sealed trait Stream[+A] {
 
   def exists(p: A => Boolean): Boolean = this.find(p).isDefined
 
-  @annotation.tailrec
-  final def find(p: A => Boolean): Option[A] = this match {
-    case Cons(h, _) if p(h()) => Some(h())
-    case Cons(_, t) => t().find(p)
-    case _ => None
-  }
+  // lazy, but not tailrec.
+  final def find(p: A => Boolean): Option[A] =
+    this.foldRight(Option.empty[A])((a, b) => if (p(a)) Some(a) else b)
 
-  // lazy, but not tailrec
+  // tailrec, but non-lazy.
+//  @annotation.tailrec
+//  final def find(p: A => Boolean): Option[A] = this match {
+//    case Cons(h, _) if p(h()) => Some(h())
+//    case Cons(_, t) => t().find(p)
+//    case _ => None
+//  }
+
+  // lazy, but not tailrec.
   def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
     case Cons(h,t) => f(h(), t().foldRight(z)(f))
     case _ => z
   }
 
-//  // tailrec, but non-lazy.
+  // tailrec, but non-lazy.
 //  def foldRight[B](z: => B)(f: (A, => B) => B): B = {
 //    @annotation.tailrec
 //    def go(s: Stream[A], acc: B): B = s match {
