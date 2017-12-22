@@ -1,5 +1,6 @@
 package ch5
 
+import ch5.Stream._
 import org.scalatest.FlatSpec
 
 class StreamTest extends FlatSpec {
@@ -99,5 +100,19 @@ class StreamTest extends FlatSpec {
 
   it should "handle non-empty streams" in
     assert(Stream(1, 2, 3).foldRight(0)(_ + _) == 6)
+
+  "forAll" should "handle empty streams" in
+    assert(Stream.empty[Int].forAll(_ => false))
+
+  it should "return false for some non-empty streams" in
+    assert(!Stream(1, 2, 3, 4, 5).forAll(_ != 3))
+
+  it should "return true for other non-empty streams" in
+    assert(Stream(1, 2, 3, 4, 5).forAll(x => x > 0 && x < 6))
+
+  it should "be lazy" in {
+    val s: Stream[Int] = Empty :+ 5 :+ sys.error("foo") :+ 3 :+ 2 :+ 1
+    assert(!s.forAll(_ != 3))
+  }
 
 }

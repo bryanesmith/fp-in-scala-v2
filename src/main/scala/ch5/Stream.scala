@@ -77,6 +77,10 @@ sealed trait Stream[+A] {
 //    }
 //    go(this, z)
 //  }
+
+  // Exercise 5.4
+  def forAll(p: A => Boolean): Boolean =
+    this.foldRight(true)((a, b) => if (!p(a)) false else b)
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
@@ -92,7 +96,15 @@ object Stream {
   // for type inference
   def empty[A]: Stream[A] = Empty
 
+  // non-lazy constructor
   def apply[A](as: A*): Stream[A] =
     if (as.isEmpty) empty else cons(as.head, apply(as.tail: _*))
 
-}
+  implicit class StreamOps[A] (s: Stream[A]) {
+    // unlike apply, this is a lazy variadic constructor
+    def :+(a: => A): Stream[A] = cons(a, s)
+  }
+
+} // Stream
+
+
