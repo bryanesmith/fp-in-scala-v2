@@ -7,7 +7,7 @@ sealed trait Stream[+A] {
     case Cons(h, _) => Some(h())
   }
 
-  // Exercise 5.1 
+  // Exercise 5.1
   def toList: List[A] = {
     @annotation.tailrec
     def go(s: Stream[A], acc: List[A]): List[A] = s match {
@@ -18,10 +18,13 @@ sealed trait Stream[+A] {
     go(this, Nil)
   }
 
-  // Exercise 5.2
-  def take(n: Int): Stream[A] = this match {
-    case Cons(h, t) if n > 0 => Cons(h, () => t().take(n-1))
-    case _ => Empty // Empty or n <= 0
+  def take(n: Int): Stream[A] = {
+    @annotation.tailrec
+    def go(s: Stream[A], r: Int, acc: List[A]): Stream[A] = s match {
+      case Cons(h, t) if r > 0 => go(t(), r - 1, acc :+ h())
+      case _ => Stream(acc: _*)
+    }
+    go(this, n, Nil)
   }
 
   // Exercise 5.2
