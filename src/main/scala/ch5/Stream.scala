@@ -57,14 +57,21 @@ sealed trait Stream[+A] {
     case _ => None
   }
 
-  def foldRight[B](z: => B)(f: (A, => B) => B): B = {
-    @annotation.tailrec
-    def go(s: Stream[A], acc: B): B = s match {
-      case Cons(h, t) => go(t(), f(h(), acc))
-      case _ => acc
-    }
-    go(this, z)
+  // lazy, but not tailrec
+  def foldRight[B](z: => B)(f: (A, => B) => B): B = this match {
+    case Cons(h,t) => f(h(), t().foldRight(z)(f))
+    case _ => z
   }
+
+//  // tailrec, but non-lazy.
+//  def foldRight[B](z: => B)(f: (A, => B) => B): B = {
+//    @annotation.tailrec
+//    def go(s: Stream[A], acc: B): B = s match {
+//      case Cons(h, t) => go(t(), f(h(), acc))
+//      case _ => acc
+//    }
+//    go(this, z)
+//  }
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
