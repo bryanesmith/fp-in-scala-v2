@@ -115,4 +115,20 @@ class StreamTest extends FlatSpec {
     assert(!s.forAll(_ != 3))
   }
 
+  "map" should "handle empty streams" in ???
+
+  it should "handle non-empty streams" in ???
+
+  "filter" should "handle empty streams" in ???
+
+  it should "handle non-empty streams" in ???
+
+  "append" should "handle empty streams" in ???
+
+  it should "handle non-empty streams" in ???
+
+  "flatMap" should "handle empty streams" in ???
+
+  it should "handle non-empty streams" in ???
+
 }

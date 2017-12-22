@@ -88,6 +88,20 @@ sealed trait Stream[+A] {
   // Exercise 5.4
   def forAll(p: A => Boolean): Boolean =
     this.foldRight(true)((a, b) => if (!p(a)) false else b)
+
+  // Exercise 5.7
+  def map[B](f: A => B): Stream[B] = ???
+
+  // Exercise 5.7
+  def filter(f: A => Boolean): Stream[A] = ???
+
+  // Exercise 5.7
+  def append[T >: A](a: T): Stream[A] = ???
+
+  // Exercise 5.7
+  def flatMap[B](f: A => Stream[B]): Stream[B] = ???
+
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
