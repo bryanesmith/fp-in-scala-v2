@@ -164,4 +164,13 @@ class StreamTest extends FlatSpec {
 
   "fibs" should "generate the Fibonacci sequence" in
     assert { Stream.fibs.take(7).toList == List(0, 1, 1, 2, 3, 5, 8) }
+
+  "tail" should "handle empty streams" in
+    assert { Stream.empty[Int].tail == Empty }
+
+  it should "handle non-empty streams" in {
+    assert { Stream(1).tail == Empty }
+    assert { Stream(1, 2).tail.toList == List(2) }
+    assert { Stream(1, 2, 3).tail.toList == List(2, 3) }
+  }
 }

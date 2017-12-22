@@ -10,6 +10,11 @@ sealed trait Stream[+A] {
   // Exercise 5.6
   def headOption: Option[A] = this.foldRight(Option.empty[A]) { (a, _) => Some(a) }
 
+  def tail: Stream[A] = this match {
+    case Cons(_, t) => t()
+    case Empty => Empty
+  }
+
   // Exercise 5.1
   def toList: List[A] = {
     @annotation.tailrec
@@ -89,8 +94,12 @@ sealed trait Stream[+A] {
     this.foldRight(true) { (a, b) => if (!p(a)) false else b }
 
   // Exercise 5.7
+//  def map[B](f: A => B): Stream[B] =
+//    this.foldRight(Stream.empty[B]) { (a, b) => Stream.cons(f(a), b) }
+
+  // Exercise 5.13
   def map[B](f: A => B): Stream[B] =
-    this.foldRight(Stream.empty[B]) { (a, b) => Stream.cons(f(a), b) }
+    Stream.unfold(this)((s:Stream[A]) => s.headOption.map { a => (f(a), s.tail) })
 
   // Exercise 5.7
   def filter(f: A => Boolean): Stream[A] =
