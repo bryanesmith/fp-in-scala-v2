@@ -151,12 +151,22 @@ sealed trait Stream[+A] {
       case _ => None
     }
 
+  /**
+    * Like zipAll, drains the other stream; but unlike zipAll, won't drain this stream.
+    */
+  def zipRight[B](other: Stream[B]): Stream[(Option[A], Option[B])] =
+    Stream.unfold((this, other)) {
+      case (Cons(h1, t1), Cons(h2, t2)) => Some((Some(h1()), Some(h2())), (t1(), t2()))
+      case (_, Cons(h2, t2)) => Some((None, Some(h2())), (Empty, t2()))
+      case _ => None
+    }
+
   // Exercise 5.14
-  def startsWith[T >: A](other: Stream[T]): Boolean = this.zipAll(other).forAll({
-    case ((Some(a), Some(b))) => a == b
+  def startsWith[T >: A](other: Stream[T]): Boolean = this.zipRight(other).forAll {
+    case ((Some(t), Some(o))) => t == o
     case ((Some(_), _)) => true
     case _ => false
-  })
+  }
 
 }
 case object Empty extends Stream[Nothing]
