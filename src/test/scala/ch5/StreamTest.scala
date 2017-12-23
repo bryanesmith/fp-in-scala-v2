@@ -220,4 +220,13 @@ class StreamTest extends FlatSpec {
     assert { Stream(1, 2).tails.map(_.toList).toList == List(List(1, 2), List(2)) }
     assert { Stream(1, 2, 3).tails.map(_.toList).toList == List(List(1, 2, 3), List(2, 3), List(3)) }
   }
+
+  "scanRight" should "handle empty streams" in
+    assert { Stream.empty[Int].scanRight(0){_ + _}.toList == List(0) }
+
+  it should "handle non-empty streams" in {
+    assert { Stream(1, 2, 3).scanRight(0){_ + _}.toList == List(6, 5, 3, 0) }
+    assert { Stream(1, 2).scanRight(0){_ + _}.toList == List(3, 2, 0) }
+    assert { Stream(1).scanRight(0){_ + _}.toList == List(1, 0) }
+  }
 }

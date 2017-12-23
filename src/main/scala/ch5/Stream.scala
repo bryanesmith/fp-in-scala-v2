@@ -174,6 +174,10 @@ sealed trait Stream[+A] {
     case _ => None
   }
 
+  // Exercise 5.16
+  def scanRight[B](z: => B)(f: (A, => B) => B): Stream[B] =
+    this.tails.map(s => s.foldRight(z)(f)).append(z)
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
