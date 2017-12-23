@@ -200,4 +200,15 @@ class StreamTest extends FlatSpec {
   it should "handle streams of even sizes" in assert {
     Stream(1, 2).zipAll { Stream(3, 4) }.toList == List((Some(1), Some(3)), (Some(2), Some(4)))
   }
+
+  "startWith" should "handle empty streams" in {
+    assert { Stream.empty[Int].startsWith(Stream.empty[Int]) }
+    assert { !Stream.empty[Int].startsWith(Stream(1, 2, 3)) }
+    assert { Stream(1, 2, 3).startsWith(Stream.empty[Int]) }
+  }
+
+  it should "handle non-empty streams" in {
+    assert { Stream(1, 2, 3, 4, 5).startsWith(Stream(1, 2, 3)) }
+    assert { !Stream(1, 2, 3).startsWith(Stream(1, 2, 3, 4, 5)) }
+  }
 }

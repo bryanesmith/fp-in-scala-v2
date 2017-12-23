@@ -151,6 +151,13 @@ sealed trait Stream[+A] {
       case _ => None
     }
 
+  // Exercise 5.14
+  def startsWith[T >: A](other: Stream[T]): Boolean = this.zipAll(other).forAll({
+    case ((Some(a), Some(b))) => a == b
+    case ((Some(a), _)) => true
+    case _ => false
+  })
+
 }
 case object Empty extends Stream[Nothing]
 case class Cons[+A](h: () => A, t: () => Stream[A]) extends Stream[A]
