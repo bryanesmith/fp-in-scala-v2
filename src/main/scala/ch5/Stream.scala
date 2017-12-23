@@ -154,7 +154,7 @@ sealed trait Stream[+A] {
   // Exercise 5.14
   def startsWith[T >: A](other: Stream[T]): Boolean = this.zipAll(other).forAll({
     case ((Some(a), Some(b))) => a == b
-    case ((Some(a), _)) => true
+    case ((Some(_), _)) => true
     case _ => false
   })
 
