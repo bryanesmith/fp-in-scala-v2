@@ -211,4 +211,13 @@ class StreamTest extends FlatSpec {
     assert { Stream(1, 2, 3, 4, 5).startsWith(Stream(1, 2, 3)) }
     assert { !Stream(1, 2, 3).startsWith(Stream(1, 2, 3, 4, 5)) }
   }
+
+  "tails" should "handle empty streams" in
+    assert { Stream.empty[Int].tails == Empty}
+
+  it should "handle non-empty streams" in {
+    assert { Stream(1).tails.map(_.toList).toList == List(List(1)) }
+    assert { Stream(1, 2).tails.map(_.toList).toList == List(List(1, 2), List(2)) }
+    assert { Stream(1, 2, 3).tails.map(_.toList).toList == List(List(1, 2, 3), List(2, 3), List(3)) }
+  }
 }
