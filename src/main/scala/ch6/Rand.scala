@@ -37,9 +37,7 @@ object Rand {
 
   // Exercise 6.8
   def flatMap[A,B](f: Rand[A])(g: A => Rand[B]): Rand[B] =
-    rng => {
-      val (a, rng2) = f(rng)
-      g(a)(rng2)
+    rng => f(rng) match {
+      case (a, rng2) => g(a)(rng2)
     }
-
 }
