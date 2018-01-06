@@ -9,10 +9,18 @@ case class SimpleRNG(seed: Long) extends RNG {
 }
 
 object SimpleRNG {
+
   // Exercise 6.1
   @annotation.tailrec
   def nonNegativeInt(rng: RNG): (Int, RNG) = rng.nextInt match {
     case(i, rng2) if i == Int.MinValue => nonNegativeInt(rng2)
     case(i, rng2) => (Math.abs(i), rng2)
+  }
+
+  // Exercise 6.2
+  @annotation.tailrec
+  def double(rng:RNG): (Double, RNG) = nonNegativeInt(rng) match {
+    case (i, rng2) if i == Int.MaxValue => double(rng2)
+    case (i, rng2) => (i.toDouble / Int.MaxValue, rng2)
   }
 }

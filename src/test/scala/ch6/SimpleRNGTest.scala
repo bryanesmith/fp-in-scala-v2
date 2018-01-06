@@ -19,4 +19,12 @@ class SimpleRNGTest extends FlatSpec {
     val (n2, _) = SimpleRNG.nonNegativeInt(rng2)
     assert(n2 == 1281479697)
   }
+
+  "SimpleRNG.double" should "generate doubles between 0 and 1, exclusive" in {
+    val rng = SimpleRNG(42)
+    val (d1, rng2) = SimpleRNG.double(rng)
+    assert(d1 == 0.007524831689672932)
+    val (d2, rng3) = SimpleRNG.double(rng2)
+    assert(d2 == 0.5967354856416283)
+  }
 }
