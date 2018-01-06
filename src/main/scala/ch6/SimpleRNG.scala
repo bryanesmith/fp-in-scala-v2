@@ -7,3 +7,12 @@ case class SimpleRNG(seed: Long) extends RNG {
     (n, SimpleRNG(newSeed))
   }
 }
+
+object SimpleRNG {
+  // Exercise 6.1
+  @annotation.tailrec
+  def nonNegativeInt(rng: RNG): (Int, RNG) = rng.nextInt match {
+    case(i, rng2) if i == Int.MinValue => nonNegativeInt(rng2)
+    case(i, rng2) => (Math.abs(i), rng2)
+  }
+}
