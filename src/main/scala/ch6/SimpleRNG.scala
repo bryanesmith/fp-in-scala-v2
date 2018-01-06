@@ -13,6 +13,8 @@ case class SimpleRNG(seed: Long) extends RNG {
 
 object SimpleRNG {
 
+  val int: Rand[Int] = _.nextInt
+
   // Exercise 6.1
   @annotation.tailrec
   val nonNegativeInt: Rand[Int] = (rng: RNG) => rng.nextInt match {
@@ -25,18 +27,10 @@ object SimpleRNG {
     map(nonNegativeInt) { i => i.toDouble / Int.MaxValue} // TODO: can equal 1
 
   // Exercise 6.3
-  val intDouble: Rand[(Int, Double)] = (rng: RNG) => {
-    val (i, rng2) = rng.nextInt
-    val (d, rng3) = double(rng2)
-    ((i, d), rng3)
-  }
+  val intDouble: Rand[(Int, Double)] = both(int, double)
 
   // Exercise 6.3
-  val doubleInt: Rand[(Double, Int)] = (rng: RNG) => {
-    val (d, rng2) = double(rng)
-    val (i, rng3) = rng2.nextInt
-    ((d, i), rng3)
-  }
+  val doubleInt: Rand[(Double, Int)] = both(double, int)
 
   // Exercise 6.3
   val double3: Rand[(Double,Double,Double)] = (rng: RNG) => {
