@@ -1,6 +1,7 @@
 package ch6
 
-import ch6.Rand.Rand
+import ch6.Rand._
+
 
 case class SimpleRNG(seed: Long) extends RNG {
   def nextInt: (Int, RNG) = {
@@ -18,13 +19,10 @@ object SimpleRNG {
     case(i, rng2) if i == Int.MinValue => nonNegativeInt(rng2)
     case(i, rng2) => (Math.abs(i), rng2)
   }
-
-  // Exercise 6.2
-  @annotation.tailrec
-  val double: Rand[Double] = (rng:RNG) => nonNegativeInt(rng) match {
-    case (i, rng2) if i == Int.MaxValue => double(rng2)
-    case (i, rng2) => (i.toDouble / Int.MaxValue, rng2)
-  }
+  
+  // Exercise 6.2, 6.5
+  def double: Rand[Double] =
+    map(nonNegativeInt) { i => i.toDouble / Int.MaxValue} // TODO: can equal 1
 
   // Exercise 6.3
   val intDouble: Rand[(Int, Double)] = (rng: RNG) => {
@@ -59,4 +57,8 @@ object SimpleRNG {
     }
     go(count, rng, List[Int]())
   }
+
+  def nonNegativeEven: Rand[Int] =
+    map(nonNegativeInt) { i => i - i % 2 }
+
 }
