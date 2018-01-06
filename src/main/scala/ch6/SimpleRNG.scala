@@ -40,7 +40,7 @@ object SimpleRNG {
     ((d1, d2, d3), rng4)
   }
 
-  // Exercise 6.4, 6.8
+  // Exercise 6.4, 6.7
   val ints: Int => Rand[List[Int]] = (c: Int) => sequence(List.fill(c)(int))
 
   def nonNegativeEven: Rand[Int] =
