@@ -22,4 +22,17 @@ object Rand {
 
   def both[A,B](ra: Rand[A], rb: Rand[B]): Rand[(A,B)] =
     map2(ra, rb) { (_,_) }
+
+  // Exercise 6.7
+  def sequence[A](fs: List[Rand[A]]): Rand[List[A]] = {
+    @annotation.tailrec
+    def go(current: RNG, rem: List[Rand[A]], acc: List[A]): (List[A], RNG) = rem match {
+      case Nil => (acc, current)
+      case rnd +: tail =>
+        val (a, next) = rnd(current)
+        go(next, tail, acc :+ a)
+    }
+    rng => go(rng, fs, Nil)
+  }
+
 }

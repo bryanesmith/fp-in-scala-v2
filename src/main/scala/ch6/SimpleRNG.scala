@@ -40,17 +40,8 @@ object SimpleRNG {
     ((d1, d2, d3), rng4)
   }
 
-  // Exercise 6.4
-  val ints: Int => Rand[List[Int]] = (count: Int) => (rng: RNG) => {
-    @annotation.tailrec
-    def go(r: Int, current: RNG, acc:List[Int]): (List[Int], RNG) = if (r <= 0) {
-      (acc, current)
-    } else {
-      val (i: Int, next: RNG) = current.nextInt
-      go(r - 1, next, acc :+ i)
-    }
-    go(count, rng, List[Int]())
-  }
+  // Exercise 6.4, 6.8
+  val ints: Int => Rand[List[Int]] = (c: Int) => sequence(List.fill(c)(int))
 
   def nonNegativeEven: Rand[Int] =
     map(nonNegativeInt) { i => i - i % 2 }
