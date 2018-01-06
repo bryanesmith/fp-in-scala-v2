@@ -1,5 +1,6 @@
 package ch6
 
+import ch6.Rand.sequence
 import org.scalatest.FlatSpec
 
 class SimpleRNGTest extends FlatSpec {
@@ -29,11 +30,28 @@ class SimpleRNGTest extends FlatSpec {
   "SimpleRNG.ints" should "handle negative count" in
     assert { SimpleRNG.ints(-1)(rng)._1 == Nil }
 
-  "SimpleRNG.ints" should "handle count of 0" in
+  it should "handle count of 0" in
     assert { SimpleRNG.ints(0)(rng)._1 == Nil }
 
-  "SimpleRNG.ints" should "handle positive counts" in {
+  it should "handle positive counts" in {
     assert { SimpleRNG.ints(1)(rng)._1 == List(16159453) }
     assert { SimpleRNG.ints(2)(rng)._1 == List(16159453, -1281479697) }
+  }
+
+  "SimpleRNG.nonNegativeLessThan" should "generate appropriate random values" in {
+    val lRand = List.fill(10) { SimpleRNG.nonNegativeLessThan(4) }
+    val rList = sequence(lRand)
+    assert{ rList(rng)._1 == List(1, 1, 2, 0, 2, 3, 0, 1, 3, 2) }
+  }
+
+  it should "produce a uniform distribution" in {
+    // Replaces Int.MaxVal with a low value in order to show that logic that ensures
+    //   uniform distribution is exercised.
+    val CustomIntMaxVal = 20
+    val lRand = List.fill(10) { SimpleRNG.nonNegativeLessThan(4, CustomIntMaxVal) }
+    val rList = sequence(lRand)
+    // Notice different output than above test; the lower max was exceeded, and
+    //   the uniformity logic was exercised!
+    assert{ rList(rng)._1 == List(1, 0, 3, 1, 2, 0, 3, 1, 1, 2) }
   }
 }

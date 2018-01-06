@@ -45,4 +45,16 @@ object SimpleRNG {
 
   def nonNegativeEven: Rand[Int] = map(nonNegativeInt) { i => i - i % 2 }
 
+  // Exercise 6.8
+  /**
+    * Optional parameter max is useful for testing uniformity condition.
+    */
+  def nonNegativeLessThan(n: Int, max: Int = Integer.MAX_VALUE): Rand[Int] =
+    flatMap(nonNegativeInt) { i =>
+      if (max - max % n > i) { // ensures uniform distribution
+        (rng) => (i % n, rng)
+      } else {
+        nonNegativeLessThan(n)
+      }
+    }
 }
