@@ -45,4 +45,16 @@ object SimpleRNG {
     val (d3, rng4) = double(rng3)
     ((d1, d2, d3), rng4)
   }
+
+  // Exercise 6.4
+  def ints(count: Int)(rng: RNG): (List[Int], RNG) = {
+    @annotation.tailrec
+    def go(r: Int, current: RNG, acc:List[Int]): (List[Int], RNG) = if (r <= 0) {
+      (acc, current)
+    } else {
+      val (i: Int, next: RNG) = current.nextInt
+      go(r - 1, next, acc :+ i)
+    }
+    go(count, rng, List[Int]())
+  }
 }
