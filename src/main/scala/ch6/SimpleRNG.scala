@@ -41,9 +41,8 @@ object SimpleRNG {
   }
 
   // Exercise 6.4, 6.7
-  val ints: Int => Rand[List[Int]] = (c: Int) => sequence(List.fill(c)(int))
+  def ints(c: Int): Rand[List[Int]] = sequence { List.fill(c)(int) }
 
-  def nonNegativeEven: Rand[Int] =
-    map(nonNegativeInt) { i => i - i % 2 }
+  def nonNegativeEven: Rand[Int] = map(nonNegativeInt) { i => i - i % 2 }
 
 }
