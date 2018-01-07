@@ -2,6 +2,25 @@ package ch6
 
 case class State[S, +A](run: S => (A, S)) {
 
+  /**
+    * For fetching state in for comprehension:
+    *
+    *   for {
+    *     s <- this.get
+    *   }
+    */
+  def get: State[S,S] = State { s => (s,s) }
+
+  def set(s: S): State[S, Unit] = State { _ => ((), s) }
+
+  /**
+    * Modifies state using provided function.
+    */
+  def modify(f: S => S): State[S, Unit] = for {
+    s <- get
+    _ <- set(f(s))
+  } yield ()
+
   // Exercise 6.9, Exercise 6.10
   def map[B](f: A => B): State[S, B] =
     this.flatMap { a =>
