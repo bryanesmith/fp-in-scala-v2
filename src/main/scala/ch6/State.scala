@@ -2,13 +2,13 @@ package ch6
 
 case class State[S, +A](run: S => (A, S)) {
 
-  // Exercise 6.10
+  // Exercise 6.9, Exercise 6.10
   def map[B](f: A => B): State[S, B] =
     this.flatMap { a =>
       State { (f(a), _) }
     }
 
-  // Exercise 6.10
+  // Exercise 6.6, 6.9, 6.10
   def map2[B,C](rb: State[S, B])(f: (A,B) => C): State[S, C] =
     rb.flatMap { b =>
       this.flatMap { a =>
@@ -16,7 +16,7 @@ case class State[S, +A](run: S => (A, S)) {
       }
     }
 
-  // Exercise 6.10
+  // Exercise 6.8, 6.10
   def flatMap[B](g: A => State[S, B]): State[S, B] =
     State(s =>
       run(s) match {
@@ -28,12 +28,10 @@ case class State[S, +A](run: S => (A, S)) {
 
 object State {
 
-  type StateType[S, +A] = S => (A,S)
-
   // Exercise 6.10
-  def unit[S,A](a: A): State[S,A] = State((s:S) => (a, s))
+  def unit[S,A](a: A): State[S,A] = State { (s:S) => (a, s) }
 
-  // Exercise 6.10
+  // Exercise 6.7, 6.10
   def sequence[A,S](fs: List[State[S,A]]): State[S,List[A]] = {
     @annotation.tailrec
     def go(current: S, rem: List[State[S,A]], acc: List[A]): (List[A], S) = rem match {
