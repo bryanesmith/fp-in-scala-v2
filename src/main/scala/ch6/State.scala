@@ -1,0 +1,47 @@
+package ch6
+
+case class State[S, +A](run: S => (A, S)) {
+
+  // Exercise 6.10
+  def map[B](f: A => B): State[S, B] =
+    this.flatMap { a =>
+      State { (f(a), _) }
+    }
+
+  // Exercise 6.10
+  def map2[B,C](rb: State[S, B])(f: (A,B) => C): State[S, C] =
+    rb.flatMap { b =>
+      this.flatMap { a =>
+        State { (f(a, b), _) }
+      }
+    }
+
+  // Exercise 6.10
+  def flatMap[B](g: A => State[S, B]): State[S, B] =
+    State(s =>
+      run(s) match {
+        case (a, s2) => g(a).run(s2)
+      }
+    )
+
+}
+
+object State {
+
+  type StateType[S, +A] = S => (A,S)
+
+  // Exercise 6.10
+  def unit[S,A](a: A): State[S,A] = State((s:S) => (a, s))
+
+  // Exercise 6.10
+  def sequence[A,S](fs: List[State[S,A]]): State[S,List[A]] = {
+    @annotation.tailrec
+    def go(current: S, rem: List[State[S,A]], acc: List[A]): (List[A], S) = rem match {
+      case Nil => (acc, current)
+      case rnd +: tail =>
+        val (a, next) = rnd.run(current)
+        go(next, tail, acc :+ a)
+    }
+    State { go(_, fs, Nil) }
+  }
+}

@@ -1,10 +1,8 @@
 package ch6
 
 object Rand {
-  type Rand[+A] = RNG => (A, RNG)
 
-  def unit[A](a: A): Rand[A] =
-    rng => (a, rng)
+  type Rand[A] = State.StateType[RNG, A]
 
   // Exercise 6.9
   def map[A,B](s: Rand[A])(f: A => B): Rand[B] =
